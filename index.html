@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة الشرح التفاعلية - كورس Data Acquisition (شيت 1) - م. محمد زيدان</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1e40af;
+    --primary-light: #3b82f6;
+    --accent: #d97706;
+    --success: #15803d;
+    --danger: #b91c1c;
+    --dark: #0f172a;
+    --card-bg: #ffffff;
+    --bg: #f8fafc;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-muted: #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding-bottom: 60px;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0369a1 100%);
+    color: white;
+    padding: 24px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .header-titles h1 { font-size: 1.5rem; font-weight: 900; }
+  .header-titles p { font-size: 0.95rem; opacity: 0.9; margin-top: 3px; }
+  .ta-badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+  }
+
+  /* Navigation Pills */
+  .nav-bar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 96px;
+    z-index: 90;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .nav-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    padding: 10px 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .nav-btn {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { background: #e2e8f0; }
+  .nav-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  main {
+    max-width: 1300px;
+    margin: 25px auto;
+    padding: 0 20px;
+  }
+
+  .tool-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    scroll-margin-top: 160px;
+  }
+
+  .tool-header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tool-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  /* Grid Layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  @media (max-width: 850px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* Form Controls */
+  .input-group {
+    margin-bottom: 14px;
+  }
+
+  .input-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .input-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Cairo', monospace;
+    font-size: 0.95rem;
+    color: var(--dark);
+    direction: ltr;
+    text-align: left;
+    transition: all 0.2s;
+  }
+
+  .input-control:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+
+  .btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn:hover { background: #1d4ed8; }
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+  }
+  .btn-outline:hover { background: #eff6ff; }
+  .btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+
+  /* Output and Live Result Boxes */
+  .result-panel {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 10px;
+  }
+
+  .result-hero {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1.5px solid #bfdbfe;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .hero-label { font-size: 0.85rem; font-weight: 700; color: #1e40af; }
+  .hero-val {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1e3a8a;
+    direction: ltr;
+    margin: 4px 0;
+  }
+
+  /* Register Visualization */
+  .register-display {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 15px 0;
+    direction: ltr;
+    flex-wrap: wrap;
+  }
+
+  .bit-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 10px;
+    min-width: 48px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .bit-box.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+  }
+
+  .bit-val {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .bit-box.active .bit-val { color: #1d4ed8; }
+
+  .bit-weight {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .bit-idx {
+    font-size: 0.65rem;
+    color: #94a3b8;
+  }
+
+  /* Stepper / Chalkboard Explanation */
+  .teaching-steps {
+    background: #1e293b;
+    color: #f8fafc;
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    border-right: 4px solid #f59e0b;
+  }
+
+  .teaching-steps h4 {
+    color: #fbbf24;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .step-item {
+    margin-bottom: 6px;
+    padding-right: 12px;
+    position: relative;
+  }
+
+  .step-item::before {
+    content: "•";
+    position: absolute;
+    right: 0;
+    color: #38bdf8;
+    font-weight: bold;
+  }
+
+  /* Data Tables */
+  .table-responsive {
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 7px 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f1f5f9;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  tr:nth-child(even) { background-color: #f8fafc; }
+
+  .badge-status {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .badge-success { background: #dcfce7; color: #15803d; }
+  .badge-danger { background: #fee2e2; color: #b91c1c; }
+  .badge-warning { background: #fef3c7; color: #b45309; }
+
+  /* Canvas Visualizers */
+  .canvas-container {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .formula-box {
+    background: #f1f5f9;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    direction: ltr;
+    display: inline-block;
+    color: #1e3a8a;
+    margin: 4px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-titles">
+      <h1>منظومة المحاكاة والشرح التفاعلي — كورس Data Acquisition (Sheet 1)</h1>
+      <p>جامعة بدر بالقاهرة (BUC) — كلية الهندسة والتكنولوجيا — قسم هندسة الميكاترونكس والطاقة</p>
+    </div>
+    <div class="ta-badge">
+      👨‍🏫 إعداد وتدريس: م. محمد زيدان (Teaching Assistant)
+    </div>
+  </div>
+</header>
+
+<div class="nav-bar">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="scrollToSection('p1')">P1: تحويل لعشري/ثنائي</button>
+    <button class="nav-btn" onclick="scrollToSection('p2')">P2: من ثنائي لعشري</button>
+    <button class="nav-btn" onclick="scrollToSection('p3')">P3: الجمع الثنائي</button>
+    <button class="nav-btn" onclick="scrollToSection('p4')">P4: جدول الـ ADC والدقة</button>
+    <button class="nav-btn" onclick="scrollToSection('p5')">P5: الإشارة والـ Clipping</button>
+    <button class="nav-btn" onclick="scrollToSection('p6')">P6: مفاضلة كروت الـ DAQ</button>
+    <button class="nav-btn" onclick="scrollToSection('p7')">P7: الـ Aliasing و نايكويست</button>
+    <button class="nav-btn" onclick="scrollToSection('lab')">الأسئلة المعملية (FFT & Motor)</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ==================== PROBLEM 1 ==================== -->
+  <section id="p1" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>🔢 المسألة 1: تحويل أي عدد عشري إلى مسجل ثنائي (Binary Register Visualizer)</span>
+      </div>
+      <span class="tag">Problem 1</span>
+    </div>
+
+    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:15px;">
+      اكتب أي رقم عشري لترى توزيعه التفاعلي على خانات المسجل من MSB إلى LSB، مع حساب خطوات القسمة/الأوزان مباشرة أمام الطلاب:
+    </p>
+
+    <div class="grid-2">
+      <div>
+        <div class="input-group">
+          <label>الرقم العشري (Decimal Integer):</label>
+          <input type="number" id="p1_dec" class="input-control" value="18" oninput="solveP1()">
+        </div>
+        <div class="input-group">
+          <label>حجم المسجل بالـ Bits:</label>
+          <select id="p1_bits" class="input-control" onchange="solveP1()">
+            <option value="8" selected>8-Bit (Byte)</option>
+            <option value="4">4-Bit (Nibble)</option>
+            <option value="12">12-Bit</option>
+            <option value="16">16-Bit (Word)</option>
+          </select>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="setP1Val(18)">رقم الشيت (18)</button>
+          <button class="btn btn-outline btn-sm" onclick="setP1Val(25)">مثال آخر (25)</button>
+          <button class="btn btn-outline btn-sm" onclick="setP1Val(170)">مثال جمع (170)</button>
+          <button class="btn btn-outline btn-sm" onclick="setP1Val(255)">الحد الأقصى (255)</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="result-hero">
+          <div class="hero-label">الناتج الثنائي المكتمل (Binary Representation):</div>
+          <div class="hero-val" id="p1_binary_out">0001 0010₂</div>
+          <div id="p1_overflow_badge"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:15px;">
+      <label style="font-weight:700; font-size:0.85rem;">المسجل التفاعلي (اضغط على أي خانة لعكس قيمتها 0/1):</label>
+      <div class="register-display" id="p1_reg_display"></div>
+    </div>
+
+    <div class="teaching-steps" id="p1_steps"></div>
+  </section>
+
+
+  <!-- ==================== PROBLEM 2 ==================== -->
+  <section id="p2" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>🔄 المسألة 2: التحويل من ثنائي إلى عشري (Binary to Decimal Polynomial)</span>
+      </div>
+      <span class="tag">Problem 2</span>
+    </div>
+
+    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:15px;">
+      اكتب أي كود ثنائي لرؤية تفكيكه الرياضي عبر ضرب كل بت في وزنه الثنائي وجمع النواتج:
+    </p>
+
+    <div class="grid-2">
+      <div>
+        <div class="input-group">
+          <label>الكود الثنائي (Binary String):</label>
+          <input type="text" id="p2_bin" class="input-control" value="00100110" oninput="solveP2()">
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="setP2Val('00100110')">قيمة الشيت (00100110)</button>
+          <button class="btn btn-outline btn-sm" onclick="setP2Val('10000100')">قيمة B (10000100)</button>
+          <button class="btn btn-outline btn-sm" onclick="setP2Val('10101010')">قيمة A+B (10101010)</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="result-hero">
+          <div class="hero-label">الناتج العشري المقابل (Base 10 Integer):</div>
+          <div class="hero-val" id="p2_dec_out">38₁₀</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="teaching-steps" id="p2_steps"></div>
+  </section>
+
+
+  <!-- ==================== PROBLEM 3 ==================== -->
+  <section id="p3" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>➕ المسألة 3: آلة جمع رقمية مع تتبع الحمل (Binary Adder & Carry Tracker)</span>
+      </div>
+      <span class="tag">Problem 3</span>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="input-group">
+          <label>العدد الأول A (Binary 8-Bit):</label>
+          <input type="text" id="p3_a" class="input-control" value="00100110" oninput="solveP3()">
+        </div>
+        <div class="input-group">
+          <label>العدد الثاني B (Binary 8-Bit):</label>
+          <input type="text" id="p3_b" class="input-control" value="10000100" oninput="solveP3()">
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetP3()">إعادة لبيانات الشيت الأصلية</button>
+      </div>
+
+      <div>
+        <div class="result-hero">
+          <div class="hero-label">ناتج الجمع العشري والثنائي (A + B):</div>
+          <div class="hero-val" id="p3_bin_out">1010 1010₂</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#1e40af; margin-top:4px;" id="p3_dec_out">= 170₁₀</div>
+          <div id="p3_overflow_flag" style="margin-top:6px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="teaching-steps" id="p3_steps"></div>
+  </section>
+
+
+  <!-- ==================== PROBLEM 4 ==================== -->
+  <section id="p4" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>📊 المسألة 4: حاسبة مواصفات الـ ADC ودرجة الدقة (ADC Resolution Calculator)</span>
+      </div>
+      <span class="tag">Problem 4</span>
+    </div>
+
+    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:15px;">
+      اختر أي حالة من حالات الشيت الثمانية أو غيّر $V_{min}$ و $V_{max}$ وعدد البتات لحساب $Q$ وعدد المستويات فورياً:
+    </p>
+
+    <div class="grid-3">
+      <div class="input-group">
+        <label>أقل جهد Vmin (Volts):</label>
+        <input type="number" id="p4_vmin" class="input-control" value="-10" step="0.1" oninput="solveP4()">
+      </div>
+      <div class="input-group">
+        <label>أعلى جهد Vmax (Volts):</label>
+        <input type="number" id="p4_vmax" class="input-control" value="10" step="0.1" oninput="solveP4()">
+      </div>
+      <div class="input-group">
+        <label>عدد البتات (M bits):</label>
+        <input type="number" id="p4_bits" class="input-control" value="8" min="1" max="24" oninput="solveP4()">
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:15px;">
+      <span style="font-size:0.85rem; font-weight:700; align-self:center;">حالات الشيت الجاهزة:</span>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(-10, 10, 8)">Case 1: [-10, 10], 8b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(-5, 5, 12)">Case 2: [-5, 5], 12b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(0, 5, 4)">Case 3: [0, 5], 4b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(0, 10, 6)">Case 4: [0, 10], 6b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(-2.5, 2.5, 12)">Case 5: [-2.5, 2.5], 12b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(-1.25, 1.25, 8)">Case 6: [-1.25, 1.25], 8b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(0, 0.125, 4)">Case 7: [0, 0.125], 4b</button>
+      <button class="btn btn-outline btn-sm" onclick="setP4Preset(-0.125, 0.125, 12)">Case 8: [-0.125, 0.125], 12b</button>
+    </div>
+
+    <div class="grid-4" id="p4_stat_cards">
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">مدى الجهد (Span)</div>
+        <div style="font-size:1.4rem; font-weight:800; color:var(--primary);" id="p4_span_out">20 V</div>
+      </div>
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">عدد المستويات (2ᴹ)</div>
+        <div style="font-size:1.4rem; font-weight:800; color:var(--primary);" id="p4_levels_out">256</div>
+      </div>
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">درجة الدقة Q (Resolution)</div>
+        <div style="font-size:1.4rem; font-weight:800; color:var(--success);" id="p4_res_out">78.125 mV</div>
+      </div>
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">خطأ التكميم (±Q/2)</div>
+        <div style="font-size:1.4rem; font-weight:800; color:var(--accent);" id="p4_qerr_out">±39.06 mV</div>
+      </div>
+    </div>
+
+    <div class="teaching-steps" id="p4_steps"></div>
+  </section>
+
+
+  <!-- ==================== PROBLEM 5 ==================== -->
+  <section id="p5" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>📈 المسألة 5: نمذجة الإشارة المركبة وتقطيع الجهد (Signal Sampling & Clipping Lab)</span>
+      </div>
+      <span class="tag">Problem 5</span>
+    </div>
+
+    <div class="formula-box" style="margin-bottom:12px; font-size:1rem;">
+      S(t) = DC + A₁·sin(2π·f₁·t) + A₂·cos(2π·f₂·t)
+    </div>
+
+    <div class="grid-4">
+      <div class="input-group">
+        <label>مركبة الـ DC (Volts):</label>
+        <input type="number" id="p5_dc" class="input-control" value="8" step="0.5" oninput="solveP5()">
+      </div>
+      <div class="input-group">
+        <label>السعة A₁ والتردد f₁ (Hz):</label>
+        <div style="display:flex; gap:4px;">
+          <input type="number" id="p5_a1" class="input-control" value="2" step="0.5" oninput="solveP5()" placeholder="A1">
+          <input type="number" id="p5_f1" class="input-control" value="2" step="0.5" oninput="solveP5()" placeholder="f1">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>السعة A₂ والتردد f₂ (Hz):</label>
+        <div style="display:flex; gap:4px;">
+          <input type="number" id="p5_a2" class="input-control" value="5" step="0.5" oninput="solveP5()" placeholder="A2">
+          <input type="number" id="p5_f2" class="input-control" value="3" step="0.5" oninput="solveP5()" placeholder="f2">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>مواصفات الـ ADC [Vmax, Bits]:</label>
+        <div style="display:flex; gap:4px;">
+          <input type="number" id="p5_vmax" class="input-control" value="10" step="1" oninput="solveP5()" placeholder="Vmax">
+          <input type="number" id="p5_bits" class="input-control" value="4" min="2" max="8" oninput="solveP5()" placeholder="Bits">
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Canvas Plot -->
+    <div class="canvas-container">
+      <canvas id="p5_canvas" width="1000" height="340"></canvas>
+      <div style="display:flex; justify-content:center; gap:20px; font-size:0.85rem; font-weight:700; margin-top:8px;">
+        <span style="color:#2563eb;">🔵 الإشارة التناظرية الحقيقية S(t)</span>
+        <span style="color:#dc2626;">🔴 خط التقطيع الأقصى للـ ADC (Clipping Limit)</span>
+        <span style="color:#16a34a;">🟢 القراءة الرقمية الناتجة (Quantized Staircase)</span>
+      </div>
+    </div>
+
+    <!-- Live Samples Table -->
+    <div style="margin-top:15px;">
+      <h4 style="font-weight:800; color:var(--primary); margin-bottom:6px;">📋 جدول العينات اللحظية من 0 إلى 0.5 ثانية (بخطوة Δt = 0.05s):</h4>
+      <div class="table-responsive">
+        <table id="p5_table">
+          <thead>
+            <tr>
+              <th>الزمن t (s)</th>
+              <th>S(t) الفعلي (V)</th>
+              <th>حالة التقطيع</th>
+              <th>الجهد المقروء (V)</th>
+              <th>الكود الثنائي (Binary Code)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="teaching-steps" id="p5_steps"></div>
+  </section>
+
+
+  <!-- ==================== PROBLEM 6 ==================== -->
+  <section id="p6" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>⚖️ المسألة 6: المفاضلة التفاعلية لاختيار كارت الـ DAQ الأنسب</span>
+      </div>
+      <span class="tag">Problem 6</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="input-group">
+        <label>أقل جهد للإشارة الحقيقية (Signal Min Volts):</label>
+        <input type="number" id="p6_sig_min" class="input-control" value="-1.2" step="0.1" oninput="solveP6()">
+      </div>
+      <div class="input-group">
+        <label>أعلى جهد للإشارة الحقيقية (Signal Max Volts):</label>
+        <input type="number" id="p6_sig_max" class="input-control" value="1.4" step="0.1" oninput="solveP6()">
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table id="p6_table">
+        <thead>
+          <tr>
+            <th>الخيار (Choice)</th>
+            <th>عدد البتات (Bits)</th>
+            <th>مدى الكارت [Vmin, Vmax]</th>
+            <th>المدى الكلي (Span)</th>
+            <th>فحص التقطيع (Clipping)</th>
+            <th>درجة الدقة Q (Resolution)</th>
+            <th>القرار الهندسي</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="p6_canvas" width="900" height="240"></canvas>
+    </div>
+
+    <div class="teaching-steps" id="p6_steps"></div>
+  </section>
+
+
+  <!-- ==================== PROBLEM 7 ==================== -->
+  <section id="p7" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>📉 المسألة 7: محاكي ظاهرة التردد الزائف ومخطط الانطواء (Aliasing & Folding Simulator)</span>
+      </div>
+      <span class="tag">Problem 7</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="input-group">
+        <label>تردد الإشارة الحقيقية f (Hz):</label>
+        <input type="number" id="p7_f" class="input-control" value="600" oninput="solveP7()">
+      </div>
+      <div class="input-group">
+        <label>تردد أخذ العينات fs (Hz):</label>
+        <input type="number" id="p7_fs" class="input-control" value="2000" oninput="solveP7()">
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px;">
+      <span style="font-size:0.85rem; font-weight:700; align-self:center;">حالات الشيت:</span>
+      <button class="btn btn-outline btn-sm" onclick="setP7Fs(2000)">Case A: fs = 2000 Hz</button>
+      <button class="btn btn-outline btn-sm" onclick="setP7Fs(900)">Case B: fs = 900 Hz</button>
+      <button class="btn btn-outline btn-sm" onclick="setP7Fs(600)">Case C: fs = 600 Hz</button>
+      <button class="btn btn-outline btn-sm" onclick="setP7Fs(500)">Case D: fs = 500 Hz</button>
+    </div>
+
+    <div class="grid-3">
+      <div class="result-hero" style="margin:0;">
+        <div class="hero-label">تردد نايكويست (Nyquist Limit: fs/2):</div>
+        <div class="hero-val" id="p7_fn_out">1000 Hz</div>
+      </div>
+      <div class="result-hero" style="margin:0;">
+        <div class="hero-label">حالة أخذ العينات (Nyquist Check):</div>
+        <div class="hero-val" id="p7_status_out" style="font-size:1.3rem;">سليم (No Aliasing)</div>
+      </div>
+      <div class="result-hero" style="margin:0;">
+        <div class="hero-label">التردد المقروء الناتج (Perceived fa):</div>
+        <div class="hero-val" id="p7_fa_out" style="color:var(--danger);">600 Hz</div>
+      </div>
+    </div>
+
+    <!-- Folding Diagram Live Canvas -->
+    <div class="canvas-container">
+      <canvas id="p7_canvas" width="1000" height="260"></canvas>
+      <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-top:4px;">
+        مخطط الانطواء الترددي (Folding Diagram) يوضح كيف يرتد التردد من حدود نايكويست ليسقط على التردد الزائف fa
+      </div>
+    </div>
+
+    <div class="teaching-steps" id="p7_steps"></div>
+  </section>
+
+
+  <!-- ==================== LAB ADVANCED QUESTIONS ==================== -->
+  <section id="lab" class="tool-card">
+    <div class="tool-header">
+      <div class="tool-title">
+        <span>🔬 الأسئلة المعملية المتقدمة: تحليل الـ FFT وقياس اهتزاز المحرك (RPM & Spectrum)</span>
+      </div>
+      <span class="tag">Lab Questions 1-6</span>
+    </div>
+
+    <div class="grid-2">
+      <!-- Motor Vibration Calculator -->
+      <div class="result-panel">
+        <h4 style="font-weight:800; color:var(--primary); margin-bottom:10px;">⚙️ قياس سرعة المحرك (Motor Vibration Q5 & Q6):</h4>
+        <div class="input-group">
+          <label>أقصى سرعة للمحرك (Max RPM):</label>
+          <input type="number" id="lab_rpm" class="input-control" value="1800" oninput="solveLab()">
+        </div>
+        <div class="input-group">
+          <label>دقة السرعة المطلوبة (RPM Resolution):</label>
+          <input type="number" id="lab_res_rpm" class="input-control" value="2" step="0.5" oninput="solveLab()">
+        </div>
+
+        <div style="background:white; border-radius:6px; padding:10px; margin-top:10px; font-size:0.85rem;">
+          <div>• التردد الأساسي الأقصى: <strong id="lab_fmax_out" style="color:var(--primary);">30 Hz</strong></div>
+          <div>• أقل تردد أخذ عينات (نايكويست fs): <strong id="lab_fs_min_out" style="color:var(--danger);">60 Hz</strong></div>
+          <div>• دقة التردد المطلوبة (Δf): <strong id="lab_df_out" style="color:var(--accent);">0.0333 Hz</strong></div>
+          <div>• زمن التسجيل الأدنى المطلوب (T): <strong id="lab_t_req_out" style="color:var(--success);">30 seconds</strong></div>
+          <div>• أقل عدد نقاط عينات (N = fs · T): <strong id="lab_n_req_out" style="color:var(--primary);">1,800 points</strong> (أو 2048 للـ FFT)</div>
+        </div>
+      </div>
+
+      <!-- FFT Spectrum Parameters -->
+      <div class="result-panel">
+        <h4 style="font-weight:800; color:var(--primary); margin-bottom:10px;">📊 معلمات الـ FFT وكارت المعمل (Q1-Q4):</h4>
+        <div class="grid-2">
+          <div class="input-group">
+            <label>تردد العينات fs (Hz):</label>
+            <input type="number" id="lab_fft_fs" class="input-control" value="200" oninput="solveLab()">
+          </div>
+          <div class="input-group">
+            <label>عدد النقاط N:</label>
+            <input type="number" id="lab_fft_n" class="input-control" value="256" oninput="solveLab()">
+          </div>
+        </div>
+
+        <div style="background:white; border-radius:6px; padding:10px; margin-top:10px; font-size:0.85rem;">
+          <div>• زمن العينة الواحدة (Δt): <strong id="lab_dt_out">5 ms</strong></div>
+          <div>• زمن التسجيل الكلي (T = N/fs): <strong id="lab_total_t_out" style="color:var(--primary);">1.28 s</strong></div>
+          <div>• دقة طيف التردد (Δf = fs/N): <strong id="lab_fft_df_out" style="color:var(--success);">0.78125 Hz</strong></div>
+          <div>• أقصى تردد مفيد (Nyquist fmax): <strong id="lab_fft_fmax_out" style="color:var(--danger);">100 Hz</strong></div>
+          <hr style="margin:8px 0; border:none; border-top:1px dashed #cbd5e1;">
+          <div>• كارت المعمل 16-bit على [-10V, +10V]: <strong>65,536 مستوى</strong></div>
+          <div>• الدقة الكلية: <strong>0.305 mV</strong> (خطأ تكميم: ±0.153 mV)</div>
+          <div>• البتات الفعالة لقياس [0 to 2.5V]: <strong style="color:var(--primary);">13 Bits</strong> (فاقد 3 بت)</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+  // Navigation Smooth Scroll
+  function scrollToSection(id) {
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ==================== PROBLEM 1 LOGIC ====================
+  function setP1Val(val) {
+    document.getElementById('p1_dec').value = val;
+    solveP1();
+  }
+
+  function solveP1() {
+    let dec = parseInt(document.getElementById('p1_dec').value) || 0;
+    let bits = parseInt(document.getElementById('p1_bits').value) || 8;
+    let maxVal = Math.pow(2, bits) - 1;
+
+    let isOverflow = dec > maxVal || dec < 0;
+    let safeDec = Math.max(0, dec);
+
+    let binStr = safeDec.toString(2);
+    if (binStr.length < bits) {
+      binStr = binStr.padStart(bits, '0');
+    }
+
+    // Format binary with spaces every 4 bits
+    let formattedBin = binStr.replace(/(.{4})/g, '$1 ').trim();
+    document.getElementById('p1_binary_out').innerText = formattedBin + '₂';
+
+    let overflowBadge = document.getElementById('p1_overflow_badge');
+    if (isOverflow) {
+      overflowBadge.innerHTML = `<span class="badge-status badge-danger">⚠️ Overflow! الرقم يتجاوز سعة مسجل ${bits}-bit (الحد الأقصى ${maxVal})</span>`;
+    } else {
+      overflowBadge.innerHTML = `<span class="badge-status badge-success">✓ يتسع تماماً في مسجل ${bits}-bit بدون Overflow</span>`;
+    }
+
+    // Render interactive register boxes
+    let regDisplay = document.getElementById('p1_reg_display');
+    regDisplay.innerHTML = '';
+    for (let i = 0; i < bits; i++) {
+      let bitIdx = bits - 1 - i;
+      let bitVal = binStr[i] || '0';
+      let weight = Math.pow(2, bitIdx);
+
+      let box = document.createElement('div');
+      box.className = `bit-box ${bitVal === '1' ? 'active' : ''}`;
+      box.onclick = () => toggleP1Bit(bitIdx);
+      box.innerHTML = `
+        <div class="bit-idx">Bit ${bitIdx}</div>
+        <div class="bit-val">${bitVal}</div>
+        <div class="bit-weight">${weight}</div>
+      `;
+      regDisplay.appendChild(box);
+    }
+
+    // Generate Teaching Steps
+    let stepsHtml = `
+      <h4>📋 خطوات الشرح للطلاب على السبورة:</h4>
+      <div class="step-item">الرقم العشري المطلوب: <strong>${dec}</strong> في مسجل حجمه <strong>${bits} بت</strong> (الأوزان من 2⁰ حتى 2<sup>${bits-1}</sup> = ${Math.pow(2, bits-1)}).</div>
+    `;
+
+    let rem = safeDec;
+    let terms = [];
+    for (let b = bits - 1; b >= 0; b--) {
+      let w = Math.pow(2, b);
+      if (rem >= w) {
+        terms.push(`(1 × 2<sup>${b}</sup> = ${w})`);
+        rem -= w;
+      }
+    }
+    stepsHtml += `
+      <div class="step-item">التفكيك لمجموع قوى العدد 2: <strong>${dec} = ${terms.join(' + ') || '0'}</strong></div>
+      <div class="step-item">نضع 1 في الخانات المشاركة في المجموع، و 0 في باقي الخانات جهة اليسار (Leading Zeros) ليكتمل المسجل إلى ${bits} بت.</div>
+    `;
+    document.getElementById('p1_steps').innerHTML = stepsHtml;
+  }
+
+  function toggleP1Bit(bitIdx) {
+    let dec = parseInt(document.getElementById('p1_dec').value) || 0;
+    let mask = 1 << bitIdx;
+    dec = dec ^ mask;
+    document.getElementById('p1_dec').value = dec;
+    solveP1();
+  }
+
+  // ==================== PROBLEM 2 LOGIC ====================
+  function setP2Val(val) {
+    document.getElementById('p2_bin').value = val;
+    solveP2();
+  }
+
+  function solveP2() {
+    let rawBin = document.getElementById('p2_bin').value.replace(/[^01]/g, '');
+    if (!rawBin) rawBin = '0';
+    let dec = parseInt(rawBin, 2) || 0;
+
+    document.getElementById('p2_dec_out').innerText = dec + '₁₀';
+
+    let stepsHtml = `
+      <h4>📋 خطوات التحويل بالضرب في الأوزان الثنائية:</h4>
+      <div class="step-item">الكود الثنائي المدخل: <strong>${rawBin}₂</strong> (عدد الخانات: ${rawBin.length} بت).</div>
+    `;
+
+    let terms = [];
+    for (let i = 0; i < rawBin.length; i++) {
+      let bit = rawBin[i];
+      let p = rawBin.length - 1 - i;
+      let w = Math.pow(2, p);
+      if (bit === '1') {
+        terms.push(`(1 × 2<sup>${p}</sup> = ${w})`);
+      }
+    }
+    stepsHtml += `
+      <div class="step-item">الجمع: <strong>${terms.join(' + ') || '0'} = ${dec}₁₀</strong></div>
+    `;
+    document.getElementById('p2_steps').innerHTML = stepsHtml;
+  }
+
+  // ==================== PROBLEM 3 LOGIC ====================
+  function resetP3() {
+    document.getElementById('p3_a').value = '00100110';
+    document.getElementById('p3_b').value = '10000100';
+    solveP3();
+  }
+
+  function solveP3() {
+    let aStr = document.getElementById('p3_a').value.replace(/[^01]/g, '') || '0';
+    let bStr = document.getElementById('p3_b').value.replace(/[^01]/g, '') || '0';
+
+    let aDec = parseInt(aStr, 2);
+    let bDec = parseInt(bStr, 2);
+    let sumDec = aDec + bDec;
+    let sumBin = sumDec.toString(2).padStart(8, '0');
+
+    let isOverflow = sumDec > 255;
+
+    document.getElementById('p3_bin_out').innerText = sumBin.replace(/(.{4})/g, '$1 ').trim() + '₂';
+    document.getElementById('p3_dec_out').innerText = `= ${sumDec}₁₀ (${aDec} + ${bDec})`;
+
+    let flagEl = document.getElementById('p3_overflow_flag');
+    if (isOverflow) {
+      flagEl.innerHTML = `<span class="badge-status badge-danger">⚠️ Overflow! الناتج ${sumDec} أكبر من 255 وتطلب خانة carry تاسعة (${sumBin})</span>`;
+    } else {
+      flagEl.innerHTML = `<span class="badge-status badge-success">✓ الجمع سليم داخل 8-bit (${sumDec} ≤ 255)</span>`;
+    }
+
+    let stepsHtml = `
+      <h4>📋 خطوات الجمع الثنائي للطلاب:</h4>
+      <div class="step-item">العدد الأول A: <strong>${aStr}₂</strong> = ${aDec}₁₀</div>
+      <div class="step-item">العدد الثاني B: <strong>${bStr}₂</strong> = ${bDec}₁₀</div>
+      <div class="step-item">الجمع العشري للتحقق: <strong>${aDec} + ${bDec} = ${sumDec}₁₀</strong></div>
+      <div class="step-item">الجمع الثنائي المباشر: نجمع كل خانة مع تتبع الحمل (Carry)، فيكون الناتج <strong>${sumBin}₂</strong>.</div>
+    `;
+    document.getElementById('p3_steps').innerHTML = stepsHtml;
+  }
+
+  // ==================== PROBLEM 4 LOGIC ====================
+  function setP4Preset(vmin, vmax, bits) {
+    document.getElementById('p4_vmin').value = vmin;
+    document.getElementById('p4_vmax').value = vmax;
+    document.getElementById('p4_bits').value = bits;
+    solveP4();
+  }
+
+  function solveP4() {
+    let vmin = parseFloat(document.getElementById('p4_vmin').value) || 0;
+    let vmax = parseFloat(document.getElementById('p4_vmax').value) || 0;
+    let bits = parseInt(document.getElementById('p4_bits').value) || 1;
+
+    let span = vmax - vmin;
+    let levels = Math.pow(2, bits);
+    let q = levels > 0 ? span / levels : 0;
+    let qHalf = q / 2;
+
+    document.getElementById('p4_span_out').innerText = span.toFixed(3) + ' V';
+    document.getElementById('p4_levels_out').innerText = levels.toLocaleString();
+
+    let qStr = q >= 1 ? q.toFixed(4) + ' V' : (q >= 0.001 ? (q * 1000).toFixed(3) + ' mV' : (q * 1e6).toFixed(3) + ' μV');
+    let qHalfStr = qHalf >= 1 ? '±' + qHalf.toFixed(4) + ' V' : (qHalf >= 0.001 ? '±' + (qHalf * 1000).toFixed(3) + ' mV' : '±' + (qHalf * 1e6).toFixed(3) + ' μV');
+
+    document.getElementById('p4_res_out').innerText = qStr;
+    document.getElementById('p4_qerr_out').innerText = qHalfStr;
+
+    let stepsHtml = `
+      <h4>📋 القوانين والتعويض الهندسي:</h4>
+      <div class="step-item">المدى الإجمالي للجهد (Voltage Span): <strong>ΔV = Vmax - Vmin = ${vmax} - (${vmin}) = ${span.toFixed(3)} V</strong></div>
+      <div class="step-item">عدد مستويات الإخراج الرقمية: <strong>N = 2ᴹ = 2<sup>${bits}</sup> = ${levels.toLocaleString()} level</strong></div>
+      <div class="step-item">درجة دقة التحويل (Quantization Resolution): <strong>Q = ΔV / 2ᴹ = ${span.toFixed(3)} / ${levels} = ${q.toExponential(4)} V (${qStr})</strong></div>
+      <div class="step-item">خطأ التكميم الأقصى المسموح: <strong>±Q/2 = ${qHalfStr}</strong></div>
+    `;
+    document.getElementById('p4_steps').innerHTML = stepsHtml;
+  }
+
+  // ==================== PROBLEM 5 LOGIC ====================
+  function solveP5() {
+    let dc = parseFloat(document.getElementById('p5_dc').value) || 0;
+    let a1 = parseFloat(document.getElementById('p5_a1').value) || 0;
+    let f1 = parseFloat(document.getElementById('p5_f1').value) || 0;
+    let a2 = parseFloat(document.getElementById('p5_a2').value) || 0;
+    let f2 = parseFloat(document.getElementById('p5_f2').value) || 0;
+    let vmax = parseFloat(document.getElementById('p5_vmax').value) || 10;
+    let bits = parseInt(document.getElementById('p5_bits').value) || 4;
+
+    let levels = Math.pow(2, bits);
+    let q = vmax / levels;
+
+    // Draw Plot
+    let canvas = document.getElementById('p5_canvas');
+    let ctx = canvas.getContext('2d');
+    let W = canvas.width;
+    let H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Padding
+    let padL = 60, padR = 30, padT = 30, padB = 40;
+    let pW = W - padL - padR;
+    let pH = H - padT - padB;
+
+    let tMax = 0.5;
+    let vPlotMax = Math.max(vmax * 1.35, 15);
+
+    function toX(t) { return padL + (t / tMax) * pW; }
+    function toY(v) { return padT + pH - (v / vPlotMax) * pH; }
+
+    // Grid & Axes
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 1;
+    for (let v = 0; v <= vPlotMax; v += 2) {
+      ctx.beginPath();
+      ctx.moveTo(padL, toY(v));
+      ctx.lineTo(W - padR, toY(v));
+      ctx.stroke();
+      ctx.fillStyle = '#64748b';
+      ctx.font = '10px Fira Code';
+      ctx.fillText(v + 'V', padL - 35, toY(v) + 4);
+    }
+
+    for (let t = 0; t <= tMax; t += 0.05) {
+      ctx.beginPath();
+      ctx.moveTo(toX(t), padT);
+      ctx.lineTo(toX(t), padT + pH);
+      ctx.stroke();
+      ctx.fillStyle = '#64748b';
+      ctx.font = '10px Fira Code';
+      ctx.fillText(t.toFixed(2) + 's', toX(t) - 12, padT + pH + 20);
+    }
+
+    // Draw Clipping Line (Red)
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(padL, toY(vmax));
+    ctx.lineTo(W - padR, toY(vmax));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#dc2626';
+    ctx.font = 'bold 11px Cairo';
+    ctx.fillText(`سقف المحول الأقصى Vmax = ${vmax}V (Clipping Limit)`, W - padR - 260, toY(vmax) - 6);
+
+    // Draw Analog Signal S(t) (Blue)
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let px = 0; px <= pW; px++) {
+      let t = (px / pW) * tMax;
+      let s = dc + a1 * Math.sin(2 * Math.PI * f1 * t) + a2 * Math.cos(2 * Math.PI * f2 * t);
+      let x = padL + px;
+      let y = toY(s);
+      if (px === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Draw Staircase Sampled Points (Green)
+    let tbody = document.querySelector('#p5_table tbody');
+    tbody.innerHTML = '';
+    let dt = 0.05;
+
+    ctx.strokeStyle = '#16a34a';
+    ctx.lineWidth = 2;
+
+    let prevX = null, prevY = null;
+
+    for (let t = 0; t <= tMax + 0.001; t += dt) {
+      let s = dc + a1 * Math.sin(2 * Math.PI * f1 * t) + a2 * Math.cos(2 * Math.PI * f2 * t);
+      let isClipped = s > vmax;
+      let readV = Math.min(s, vmax);
+
+      let lvl = Math.floor(readV / q);
+      if (lvl >= levels) lvl = levels - 1;
+      let qV = lvl * q;
+
+      let binCode = lvl.toString(2).padStart(bits, '0');
+
+      let x = toX(t);
+      let y = toY(qV);
+
+      // Draw dot
+      ctx.fillStyle = isClipped ? '#dc2626' : '#16a34a';
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, 2 * Math.PI);
+      ctx.fill();
+
+      // Staircase line
+      if (prevX !== null) {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(x, prevY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+      prevX = x; prevY = y;
+
+      // Table Row
+      let tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-family:'Fira Code'; font-weight:bold;">${t.toFixed(2)}</td>
+        <td style="font-family:'Fira Code';">${s.toFixed(2)} V</td>
+        <td><span class="badge-status ${isClipped ? 'badge-danger' : 'badge-success'}">${isClipped ? 'تقطيع (Clipped!)' : 'سليم (Normal)'}</span></td>
+        <td style="font-family:'Fira Code'; font-weight:bold;">${qV.toFixed(3)} V</td>
+        <td style="font-family:'Fira Code'; font-weight:bold; color:var(--primary);">${binCode}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // Steps
+    let stepsHtml = `
+      <h4>📋 الشرح الفني وظاهرة التقطيع (Clipping Analysis):</h4>
+      <div class="step-item">معادلة الإشارة: <strong>S(t) = ${dc} + ${a1}·sin(4π·t) + ${a2}·cos(6π·t)</strong></div>
+      <div class="step-item">عند t = 0 تكون القيمة: <strong>S(0) = ${dc} + 0 + ${a2} = ${(dc + a2).toFixed(1)} V</strong>.</div>
+      <div class="step-item">بما أن سقف المحول هو <strong>${vmax}V</strong> فقط، فإن كل قيمة أعلى من ${vmax}V تُقطع ويقرأها المحول كأعلى كود رقمي وهو <strong>${'1'.repeat(bits)}₂</strong> المقابل لـ ${(vmax - q).toFixed(3)}V.</div>
+      <div class="step-item">الدقة المحسوبة للمحول: <strong>Q = ${vmax} / 2<sup>${bits}</sup> = ${q.toFixed(4)} V (${(q*1000).toFixed(2)} mV)</strong>.</div>
+    `;
+    document.getElementById('p5_steps').innerHTML = stepsHtml;
+  }
+
+  // ==================== PROBLEM 6 LOGIC ====================
+  function solveP6() {
+    let sMin = parseFloat(document.getElementById('p6_sig_min').value);
+    let sMax = parseFloat(document.getElementById('p6_sig_max').value);
+
+    let candidates = [
+      { name: "Choice 1", bits: 12, vmin: -10, vmax: 10 },
+      { name: "Choice 2", bits: 8, vmin: -2, vmax: 2 },
+      { name: "Choice 3", bits: 10, vmin: -5, vmax: 5 },
+      { name: "Choice 4", bits: 14, vmin: -1, vmax: 1 }
+    ];
+
+    let tbody = document.querySelector('#p6_table tbody');
+    tbody.innerHTML = '';
+
+    let bestChoice = null;
+    let minQ = Infinity;
+
+    candidates.forEach(c => {
+      let span = c.vmax - c.vmin;
+      let q = span / Math.pow(2, c.bits);
+      c.span = span;
+      c.q = q;
+
+      // Check clipping
+      let isClipped = sMin < c.vmin || sMax > c.vmax;
+      c.isClipped = isClipped;
+
+      if (!isClipped && q < minQ) {
+        minQ = q;
+        bestChoice = c;
+      }
+    });
+
+    candidates.forEach(c => {
+      let isBest = (c === bestChoice);
+      let qStr = (c.q * 1000).toFixed(3) + ' mV';
+
+      let tr = document.createElement('tr');
+      if (isBest) tr.style.backgroundColor = '#f0fdf4';
+      tr.innerHTML = `
+        <td style="font-weight:bold;">${c.name}</td>
+        <td>${c.bits}-bit</td>
+        <td style="font-family:'Fira Code';">[${c.vmin}V to ${c.vmax}V]</td>
+        <td style="font-family:'Fira Code';">${c.span} V</td>
+        <td><span class="badge-status ${c.isClipped ? 'badge-danger' : 'badge-success'}">${c.isClipped ? 'تقطيع مرفوض (Clipped!)' : 'سليم لا يقطع (Safe)'}</span></td>
+        <td style="font-family:'Fira Code'; font-weight:bold;">${qStr}</td>
+        <td>${isBest ? '<strong style="color:var(--success);">🏆 الخيار الأفضل (Winner)</strong>' : (c.isClipped ? '<span style="color:var(--danger);">مرفوض (تقطيع بيانات)</span>' : 'مقبول لكن دقة أقل')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Draw Comparison Canvas
+    let canvas = document.getElementById('p6_canvas');
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let padL = 100, padR = 40, padT = 30, padB = 30;
+    let pW = canvas.width - padL - padR;
+    let pH = canvas.height - padT - padB;
+
+    let vMinScale = -11, vMaxScale = 12;
+    function toVx(v) { return padL + ((v - vMinScale) / (vMaxScale - vMinScale)) * pW; }
+
+    // Highlight signal zone (Gold)
+    ctx.fillStyle = 'rgba(251, 191, 36, 0.3)';
+    ctx.fillRect(toVx(sMin), padT, toVx(sMax) - toVx(sMin), pH);
+    ctx.strokeStyle = '#d97706';
+    ctx.setLineDash([4, 4]);
+    ctx.strokeRect(toVx(sMin), padT, toVx(sMax) - toVx(sMin), pH);
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#b45309';
+    ctx.font = 'bold 11px Cairo';
+    ctx.fillText(`مدى الإشارة الفعلي [${sMin}V إلى ${sMax}V]`, toVx((sMin + sMax)/2) - 60, padT - 8);
+
+    // Draw choice bars
+    let yGap = pH / candidates.length;
+    candidates.forEach((c, idx) => {
+      let y = padT + (idx + 0.5) * yGap;
+      let x1 = toVx(c.vmin);
+      let x2 = toVx(c.vmax);
+
+      ctx.strokeStyle = c.isClipped ? '#dc2626' : (c === bestChoice ? '#16a34a' : '#2563eb');
+      ctx.lineWidth = c === bestChoice ? 8 : 5;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(x1, y);
+      ctx.lineTo(x2, y);
+      ctx.stroke();
+
+      ctx.fillStyle = '#1e293b';
+      ctx.font = 'bold 11px Cairo';
+      ctx.textAlign = 'right';
+      ctx.fillText(c.name + ` (${c.bits}b)`, padL - 10, y + 4);
+
+      ctx.textAlign = 'left';
+      ctx.font = '10px Fira Code';
+      ctx.fillStyle = c === bestChoice ? '#15803d' : '#64748b';
+      ctx.fillText(`[${c.vmin}V to +${c.vmax}V] Q=${(c.q*1000).toFixed(2)}mV`, x2 + 8, y + 4);
+    });
+
+    let stepsHtml = `
+      <h4>📋 القاعدة الذهبية للمفاضلة الهندسية:</h4>
+      <div class="step-item"><strong>القاعدة 1 (شرط الأمان):</strong> استبعد فوراً أي نظام يكون مداه أضيق من مدى الإشارة. الخيار الرابع [Choice 4: -1V to +1V] مرفوض تماماً لأنه يقطع الإشارة عند ±1V ويحدث تشوه كامل رغم دقة الـ 14 بت!</div>
+      <div class="step-item"><strong>القاعدة 2 (شرط الدقة):</strong> قارن بين الخيارات الثلاثة السليمة المتبقية:
+        Choice 1 (Q = 4.88 mV) مقابل Choice 3 (Q = 9.77 mV) مقابل Choice 2 (Q = 15.63 mV).
+      </div>
+      <div class="step-item">القرار النهائي: <strong>${bestChoice.name}</strong> هو الأفضل على الإطلاق لأنه يضمن عدم التقطيع ويمنح أصغر خطأ تكميم (أعلى دقة قياس).</div>
+    `;
+    document.getElementById('p6_steps').innerHTML = stepsHtml;
+  }
+
+  // ==================== PROBLEM 7 LOGIC ====================
+  function setP7Fs(fs) {
+    document.getElementById('p7_fs').value = fs;
+    solveP7();
+  }
+
+  function solveP7() {
+    let f = parseFloat(document.getElementById('p7_f').value) || 600;
+    let fs = parseFloat(document.getElementById('p7_fs').value) || 2000;
+
+    let fn = fs / 2;
+    document.getElementById('p7_fn_out').innerText = fn.toFixed(1) + ' Hz';
+
+    let fa = 0;
+    let isAliased = f > fn;
+
+    // Cimbala folding calculation
+    let k = Math.round(f / fs);
+    fa = Math.abs(f - k * fs);
+
+    document.getElementById('p7_fa_out').innerText = fa.toFixed(1) + ' Hz';
+
+    let statusEl = document.getElementById('p7_status_out');
+    if (!isAliased) {
+      statusEl.innerHTML = '<span style="color:var(--success);">✓ سليم (No Aliasing)</span>';
+    } else if (fa === 0) {
+      statusEl.innerHTML = '<span style="color:var(--danger);">⚠️ تشوه تام (DC Signal)</span>';
+    } else {
+      statusEl.innerHTML = '<span style="color:var(--danger);">⚠️ تردد زائف (Aliased!)</span>';
+    }
+
+    // Draw Folding Canvas
+    let canvas = document.getElementById('p7_canvas');
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    let padL = 50, padR = 50, padT = 30, padB = 40;
+    let pW = canvas.width - padL - padR;
+    let pH = canvas.height - padT - padB;
+
+    let maxFoldF = Math.max(fs * 2, f * 1.3);
+
+    function toFx(freq) { return padL + (freq / maxFoldF) * pW; }
+    function toFy(perceived) { return padT + pH - (perceived / fn) * pH; }
+
+    // Axes
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT + pH);
+    ctx.lineTo(canvas.width - padR, padT + pH);
+    ctx.stroke();
+
+    // Draw Triangle Folding Wave
+    ctx.strokeStyle = '#94a3b8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    let numFolds = Math.ceil(maxFoldF / fn);
+    for (let fold = 0; fold <= numFolds; fold++) {
+      let foldF = fold * fn;
+      let foldFa = (fold % 2 === 0) ? 0 : fn;
+      let x = toFx(foldF);
+      let y = toFy(foldFa);
+      if (fold === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+
+      // Label fold points
+      ctx.fillStyle = '#64748b';
+      ctx.font = '10px Fira Code';
+      ctx.textAlign = 'center';
+      ctx.fillText(foldF.toFixed(0), x, padT + pH + 18);
+    }
+    ctx.stroke();
+
+    // Draw Signal Point Marker
+    let sigX = toFx(f);
+    let sigY = toFy(fa);
+
+    ctx.fillStyle = isAliased ? '#dc2626' : '#16a34a';
+    ctx.beginPath();
+    ctx.arc(sigX, sigY, 7, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Dashed lines to axes
+    ctx.strokeStyle = isAliased ? '#dc2626' : '#16a34a';
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    ctx.moveTo(sigX, padT + pH);
+    ctx.lineTo(sigX, sigY);
+    ctx.lineTo(padL, sigY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 11px Cairo';
+    ctx.textAlign = 'left';
+    ctx.fillText(`التردد الحقيقي f = ${f}Hz`, sigX + 10, sigY - 10);
+    ctx.fillText(`التردد المقروء fa = ${fa.toFixed(1)}Hz`, padL + 10, sigY - 8);
+
+    let stepsHtml = `
+      <h4>📋 خطوات الحساب وتطبيق معادلة سيمبالا (Cimbala Formula):</h4>
+      <div class="step-item">تردد نايكويست الأقصى المسموح به: <strong>f<sub>N</sub> = fs / 2 = ${fs} / 2 = ${fn.toFixed(1)} Hz</strong></div>
+      <div class="step-item">المقارنة: التردد الفعلي f = ${f} Hz مقابل f<sub>N</sub> = ${fn.toFixed(1)} Hz &rarr; <strong>${!isAliased ? 'شرط نايكويست محقق (f < f<sub>N</sub>) ولا يوجد أي تشوه.' : 'التردد تجاوز حد نايكويست، وسيحدث Aliasing حتماً!'}</strong></div>
+      <div class="step-item">معادلة حساب التردد الظاهري: <strong>fa = | f - k·fs | = | ${f} - (${k} × ${fs}) | = ${fa.toFixed(1)} Hz</strong></div>
+    `;
+    document.getElementById('p7_steps').innerHTML = stepsHtml;
+  }
+
+  // ==================== LAB ADVANCED QUESTIONS LOGIC ====================
+  function solveLab() {
+    let rpm = parseFloat(document.getElementById('lab_rpm').value) || 1800;
+    let resRpm = parseFloat(document.getElementById('lab_res_rpm').value) || 2;
+    let fftFs = parseFloat(document.getElementById('lab_fft_fs').value) || 200;
+    let fftN = parseInt(document.getElementById('lab_fft_n').value) || 256;
+
+    // Motor calculations
+    let fMax = rpm / 60;
+    let fsMin = 2 * fMax;
+    let dfReq = resRpm / 60;
+    let tReq = 1 / dfReq;
+    let nReq = Math.ceil(fsMin * tReq);
+
+    document.getElementById('lab_fmax_out').innerText = fMax.toFixed(2) + ' Hz';
+    document.getElementById('lab_fs_min_out').innerText = fsMin.toFixed(2) + ' Hz';
+    document.getElementById('lab_df_out').innerText = dfReq.toFixed(4) + ' Hz';
+    document.getElementById('lab_t_req_out').innerText = tReq.toFixed(1) + ' seconds';
+    document.getElementById('lab_n_req_out').innerText = nReq.toLocaleString() + ' points';
+
+    // FFT calculations
+    let dt = 1 / fftFs;
+    let totalT = fftN / fftFs;
+    let fftDf = fftFs / fftN;
+    let fftFmax = fftFs / 2;
+
+    document.getElementById('lab_dt_out').innerText = (dt * 1000).toFixed(2) + ' ms';
+    document.getElementById('lab_total_t_out').innerText = totalT.toFixed(2) + ' s';
+    document.getElementById('lab_fft_df_out').innerText = fftDf.toFixed(4) + ' Hz';
+    document.getElementById('lab_fft_fmax_out').innerText = fftFmax.toFixed(1) + ' Hz';
+  }
+
+  // Initialize all solvers on load
+  window.onload = function() {
+    solveP1();
+    solveP2();
+    solveP3();
+    solveP4();
+    solveP5();
+    solveP6();
+    solveP7();
+    solveLab();
+  };
+</script>
+
+</body>
+</html>
