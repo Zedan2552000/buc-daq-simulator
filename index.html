@@ -416,6 +416,7 @@
     <button class="nav-btn" onclick="scrollToSection('p6')">P6: مفاضلة كروت الـ DAQ</button>
     <button class="nav-btn" onclick="scrollToSection('p7')">P7: الـ Aliasing و نايكويست</button>
     <button class="nav-btn" onclick="scrollToSection('lab')">الأسئلة المعملية (FFT & Motor)</button>
+    <button class="nav-btn" style="background:#dc2626; color:white; border-color:#dc2626;" onclick="scrollToSection('youtube-section')">📺 فيديوهات يوتيوب للشرح</button>
   </div>
 </div>
 
@@ -843,6 +844,80 @@
         </div>
       </div>
     </div>
+  
+  <!-- ==================== YOUTUBE VIDEO LECTURES SECTION ==================== -->
+  <section id="youtube-section" class="tool-card" style="border-right: 5px solid #dc2626;">
+    <div class="tool-header">
+      <div class="tool-title" style="color:#dc2626;">
+        <span>📺 مكتبة شروحات اليوتيوب المرئية المعتمدة لكل موضوع بالشيت</span>
+      </div>
+      <span class="tag" style="background:#fee2e2; color:#b91c1c;">YouTube Tutorials</span>
+    </div>
+
+    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:18px;">
+      روابط لأفضل الفيديوهات التعليمية (عربياً وعالمياً) لتثبيت الفهم النظري والعملي لكل مسألة من مسائل الشيت والكورس:
+    </p>
+
+    <div class="grid-2">
+      <!-- Card 1: LabVIEW Full Course Playlist -->
+      <div class="result-panel" style="border-right: 4px solid #f59e0b;">
+        <h4 style="font-weight:800; color:#d97706; margin-bottom:8px;">🎓 1. كورس LabVIEW كامل بالعربي (قائمة التشغيل المعتمدة):</h4>
+        <p style="font-size:0.85rem; margin-bottom:10px;">شرح أساسيات الواجهة Front Panel و Block Diagram، الحلقات، والتوصيل مع الهاردوير:</p>
+        <a href="https://youtube.com/playlist?list=PLTt5NdVlUjdfgvUY7D6DAd9VsRtFJoL5R" target="_blank" class="btn btn-sm" style="background:#f59e0b; color:#1e293b; text-decoration:none; font-weight:bold;">
+          ▶️ فتح قائمة تشغيل LabVIEW على يوتيوب
+        </a>
+      </div>
+
+      <!-- Card 2: Binary Conversions & Addition -->
+      <div class="result-panel" style="border-right: 4px solid #2563eb;">
+        <h4 style="font-weight:800; color:#1e40af; margin-bottom:8px;">🔢 2. التحويلات العددية والجمع الثنائي (P1, P2, P3):</h4>
+        <ul style="font-size:0.85rem; padding-right:18px; margin-bottom:8px;">
+          <li><a href="https://www.youtube.com/watch?v=rsxT4FfRBaM" target="_blank" style="color:#2563eb; font-weight:700;">تحويل من عشري لثنائي (Decimal to Binary - Neso Academy)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=VLflTjd3lWA" target="_blank" style="color:#2563eb; font-weight:700;">تحويل من ثنائي لعشري (Binary to Decimal - Neso Academy)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=WN8i5cwK-2g" target="_blank" style="color:#2563eb; font-weight:700;">الجمع الثنائي وتتبع الحمل والـ Overflow (Binary Addition)</a></li>
+        </ul>
+      </div>
+
+      <!-- Card 3: ADC Quantization, Resolution & Clipping -->
+      <div class="result-panel" style="border-right: 4px solid #16a34a;">
+        <h4 style="font-weight:800; color:#15803d; margin-bottom:8px;">📊 3. محولات الإشارة ADC ودرجة الدقة والتقطيع (P4, P5, P6):</h4>
+        <ul style="font-size:0.85rem; padding-right:18px; margin-bottom:8px;">
+          <li><a href="https://www.youtube.com/watch?v=4EtsC7vA3uI" target="_blank" style="color:#15803d; font-weight:700;">شرح خطوات الـ ADC: التكميم Quantization والدقة Resolution (All About Electronics)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=1F3d1wG9QfI" target="_blank" style="color:#15803d; font-weight:700;">خطأ التكميم والـ ADC Dynamic Range (Texas Instruments)</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=%D8%B4%D8%B1%D8%AD+ADC+Analog+to+Digital+%D9%88%D9%84%D9%8A%D8%AF+%D8%B9%D9%8A%D8%B3%D9%89" target="_blank" style="color:#15803d; font-weight:700;">شرح الـ ADC بالعربي للمهندس وليد عيسى</a></li>
+        </ul>
+      </div>
+
+      <!-- Card 4: Nyquist, Aliasing & Folding Diagram -->
+      <div class="result-panel" style="border-right: 4px solid #dc2626;">
+        <h4 style="font-weight:800; color:#b91c1c; margin-bottom:8px;">📉 4. نظرية نايكويست والتردد الزائف ومخطط الانطواء (P7):</h4>
+        <ul style="font-size:0.85rem; padding-right:18px; margin-bottom:8px;">
+          <li><a href="https://www.youtube.com/@johncimbala" target="_blank" style="color:#b91c1c; font-weight:700;">قناة د. جون سيمبالا (Dr. John M. Cimbala - مؤلف مرجع المحاضرة)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=vVnK2_m_vYQ" target="_blank" style="color:#b91c1c; font-weight:700;">نظرية نايكويست والـ Aliasing (Prof. Steve Brunton - University of Washington)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=FcXZ28BX-xE" target="_blank" style="color:#b91c1c; font-weight:700;">الفهم البصري لتردد أخذ العينات والـ Folding (Zach Star)</a></li>
+        </ul>
+      </div>
+
+      <!-- Card 5: FFT & Frequency Resolution -->
+      <div class="result-panel" style="border-right: 4px solid #9333ea;">
+        <h4 style="font-weight:800; color:#7e22ce; margin-bottom:8px;">🌊 5. تحليل فورييه السريع ودقة التردد (Lab Q1-Q4):</h4>
+        <ul style="font-size:0.85rem; padding-right:18px; margin-bottom:8px;">
+          <li><a href="https://www.youtube.com/watch?v=spUNpyF58BY" target="_blank" style="color:#7e22ce; font-weight:700;">الفهم المرئي المذهل لتحويل فورييه (3Blue1Brown - Fourier Transform)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=E8HeD-MUrjY" target="_blank" style="color:#7e22ce; font-weight:700;">خوارزمية الـ FFT ودقة التردد Δf = fs/N (Steve Brunton)</a></li>
+        </ul>
+      </div>
+
+      <!-- Card 6: Motor Vibration & RPM Measurement -->
+      <div class="result-panel" style="border-right: 4px solid #0284c7;">
+        <h4 style="font-weight:800; color:#0369a1; margin-bottom:8px;">⚙️ 6. تحليل اهتزاز المحركات وقياس الـ RPM (Lab Q5-Q6):</h4>
+        <ul style="font-size:0.85rem; padding-right:18px; margin-bottom:8px;">
+          <li><a href="https://www.youtube.com/watch?v=KzD_bK-p3vQ" target="_blank" style="color:#0369a1; font-weight:700;">تحليل اهتزاز المحركات وتحديد سرعة الدوران بالطيف الترددي (Mobius Institute)</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Vibration+Analysis+FFT+Spectrum+RPM" target="_blank" style="color:#0369a1; font-weight:700;">تطبيقات معملية لاكتشاف سرعة الـ RPM بحساسات التسارع</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   </main>
 
 <script>
