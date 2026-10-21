@@ -485,6 +485,7 @@
     <button class="nav-btn" onclick="scrollToSection('p5')">P5: الإشارة والـ Clipping</button>
     <button class="nav-btn" onclick="scrollToSection('p6')">P6: مفاضلة كروت الـ DAQ ⭐</button>
     <button class="nav-btn" onclick="scrollToSection('p7')">P7: الـ Aliasing و نايكويست ⭐</button>
+    <button class="nav-btn" style="background:#7c3aed; color:white; border-color:#7c3aed;" onclick="scrollToSection('lecture-examples')">📚 أمثلة المحاضرة (Cimbala)</button>
     <button class="nav-btn" onclick="scrollToSection('lab')">الأسئلة المعملية (FFT & Motor)</button>
     <button class="nav-btn" style="background:#dc2626; color:white; border-color:#dc2626;" onclick="scrollToSection('youtube-section')">📺 مكتبة شروحات اليوتيوب</button>
   </div>
@@ -1061,6 +1062,74 @@
     </div>
 
     <div class="teaching-steps" id="p7_steps"></div>
+  </section>
+
+
+  
+  <!-- ==================== LECTURE EXAMPLES SECTION ==================== -->
+  <section id="lecture-examples" class="tool-card" style="border-right: 5px solid #7c3aed;">
+    <div class="tool-header">
+      <div class="tool-title" style="color:#6d28d9;">
+        <span>📚 محاكي أمثلة ومسائل المحاضرة الرسمية (Dr. John Cimbala Lecture Examples)</span>
+      </div>
+      <span class="tag" style="background:#ede9fe; color:#6d28d9;">Lecture Slides Examples 1-4</span>
+    </div>
+
+    <div class="theory-box" style="background:#faf5ff; border-color:#e9d5ff; border-right-color:#7c3aed;">
+      <h4 style="color:#6d28d9;">📖 قواعد المحاضرة الثلاث لتصنيف أخذ العينات والتردد الزائف (The 3 Regimes):</h4>
+      <div style="line-height:1.7;">
+        <div>• <strong>النظام 1 (استيفاء نايكويست fs ≥ 2f):</strong> لا يحدث تشوه مطلقاً، والتردد المقروء = التردد الحقيقي (fa = f).</div>
+        <div>• <strong>النظام 2 (نقص عينات معتدل ⅔f &lt; fs &lt; 2f):</strong> يحدث Aliasing، ويُحسب التردد الزائف بالفرق البسيط: <code>fa = | fs - f |</code>.</div>
+        <div>• <strong>النظام 3 (نقص عينات حاد fs ≤ ⅔f):</strong> ⚠️ <strong>فخ المحاضرة الأكبر!</strong> يمنع تماماً استخدام الفرق البسيط لأنه يعطي نتيجة خاطئة، ويجب استخدام <strong>مخطط الانطواء</strong> أو <strong>معادلة سيمبالا الشاملة</strong>.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+      <span style="font-size:0.85rem; font-weight:700; align-self:center;">أزرار أمثلة المحاضرة (اضغط لتجربة كل مثال):</span>
+      <button class="btn btn-sm" style="background:#7c3aed; color:white;" onclick="loadLecEx(1)">مثال 1: f=10Hz, fs=15Hz (معتدل)</button>
+      <button class="btn btn-sm" style="background:#7c3aed; color:white;" onclick="loadLecEx(2)">مثال 2: f=10Hz, fs=9Hz (مقارنة 11Hz)</button>
+      <button class="btn btn-sm btn-warning" onclick="loadLecEx(3)">مثال 3: f=10Hz, fs=6Hz (فخ الامتحان! ⚠️)</button>
+      <button class="btn btn-sm" style="background:#7c3aed; color:white;" onclick="loadLecEx(4)">مثال 4: f=10Hz, fs=4Hz (تمرين Slide 16)</button>
+    </div>
+
+    <div class="grid-2">
+      <div class="input-group">
+        <label>تردد الإشارة f (Hz):</label>
+        <input type="number" id="lec_f" class="input-control" value="10" step="1" oninput="solveLec()">
+      </div>
+      <div class="input-group">
+        <label>تردد العينات fs (Hz):</label>
+        <input type="number" id="lec_fs" class="input-control" value="6" step="1" oninput="solveLec()">
+      </div>
+    </div>
+
+    <!-- Alert Banner for Severe Undersampling -->
+    <div id="lec_warning_banner" style="display:none; background:#fef2f2; border:1.5px solid #fecaca; border-right:5px solid #dc2626; border-radius:8px; padding:12px; margin-bottom:14px; font-size:0.9rem;">
+      <strong style="color:#b91c1c;">⚠️ تحذير فخ الامتحان (Slide 15 Warning):</strong>
+      <div id="lec_warning_text" style="color:#7f1d1d; margin-top:4px;"></div>
+    </div>
+
+    <div class="grid-4" style="margin-bottom:14px;">
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">عتبة الثلثين (⅔ · f)</div>
+        <div style="font-size:1.3rem; font-weight:800; color:#7c3aed;" id="lec_twothirds_out">6.67 Hz</div>
+      </div>
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">تردد الانطواء (fs / 2)</div>
+        <div style="font-size:1.3rem; font-weight:800; color:var(--primary);" id="lec_fn_out">3.0 Hz</div>
+      </div>
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">نظام أخذ العينات (Regime)</div>
+        <div style="font-size:1.05rem; font-weight:800;" id="lec_regime_out">نقص حاد (Regime 3)</div>
+      </div>
+      <div class="result-panel" style="text-align:center;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">التردد المقروء الصحيح (fa)</div>
+        <div style="font-size:1.4rem; font-weight:800; color:var(--success);" id="lec_fa_out">2.0 Hz</div>
+      </div>
+    </div>
+
+    <!-- Live Step by Step Solution for Lecture Example -->
+    <div class="teaching-steps" id="lec_steps"></div>
   </section>
 
 
@@ -1955,7 +2024,106 @@
   }
 
   // Initial solve on page load
+  
+  // ==================== LECTURE EXAMPLES LOGIC ====================
+  function loadLecEx(num) {
+    if (num === 1) {
+      document.getElementById('lec_f').value = 10;
+      document.getElementById('lec_fs').value = 15;
+    } else if (num === 2) {
+      document.getElementById('lec_f').value = 10;
+      document.getElementById('lec_fs').value = 9;
+    } else if (num === 3) {
+      document.getElementById('lec_f').value = 10;
+      document.getElementById('lec_fs').value = 6;
+    } else if (num === 4) {
+      document.getElementById('lec_f').value = 10;
+      document.getElementById('lec_fs').value = 4;
+    }
+    solveLec();
+  }
+
+  function solveLec() {
+    let f = parseFloat(document.getElementById('lec_f').value) || 10;
+    let fs = parseFloat(document.getElementById('lec_fs').value) || 6;
+
+    let twoThirds = (2 / 3) * f;
+    let nyq = 2 * f;
+    let fn = fs / 2;
+
+    document.getElementById('lec_twothirds_out').innerText = twoThirds.toFixed(2) + ' Hz';
+    document.getElementById('lec_fn_out').innerText = fn.toFixed(2) + ' Hz';
+
+    let n = Math.round(f / fs);
+    let faCorrect = Math.abs(f - n * fs);
+    let faSimple = Math.abs(fs - f);
+
+    let regime = "";
+    let regimeBadge = "";
+    let isSevere = false;
+
+    if (fs >= nyq) {
+      regime = "النظام 1: سليم (Nyquist Satisfied)";
+      regimeBadge = '<span class="badge-status badge-success">سليم (No Aliasing)</span>';
+      faCorrect = f;
+    } else if (fs > twoThirds) {
+      regime = "النظام 2: نقص معتدل (Moderate Undersampling)";
+      regimeBadge = '<span class="badge-status badge-warning">نقص معتدل (Moderate)</span>';
+    } else {
+      regime = "النظام 3: نقص حاد (Severe Undersampling)";
+      regimeBadge = '<span class="badge-status badge-danger">نقص حاد (Severe!)</span>';
+      isSevere = true;
+    }
+
+    document.getElementById('lec_regime_out').innerHTML = regimeBadge;
+    document.getElementById('lec_fa_out').innerText = faCorrect.toFixed(2) + ' Hz';
+
+    // Warning banner check
+    let warnBanner = document.getElementById('lec_warning_banner');
+    let warnText = document.getElementById('lec_warning_text');
+    if (isSevere) {
+      warnBanner.style.display = 'block';
+      warnText.innerHTML = `
+        لو طبقت قانون الفرق البسيط <code>|fs - f| = |${fs} - ${f}| = ${faSimple.toFixed(2)} Hz</code> ستكون <strong>إجابة خاطئة تماماً (WRONG!)</strong> لأن fs &le; ⅔f!<br>
+        الحل الصحيح عبر مخطط الانطواء أو معادلة سيمبالا هو <strong>fa = ${faCorrect.toFixed(2)} Hz</strong>.
+      `;
+    } else {
+      warnBanner.style.display = 'none';
+    }
+
+    // Step-by-step
+    let stepsHtml = `
+      <h4>📋 خطوات الحل والتحليل وفق شرائح المحاضرة (Dr. Cimbala Slides):</h4>
+      <div class="step-item">تردد الإشارة الحقيقية f = <strong>${f} Hz</strong>، تردد العينات fs = <strong>${fs} Hz</strong>.</div>
+      <div class="step-item">عتبة نايكويست للأمان 2f = <strong>${nyq.toFixed(1)} Hz</strong>، عتبة الثلثين ⅔f = <strong>${twoThirds.toFixed(2)} Hz</strong>.</div>
+      <div class="step-item">التصنيف: <strong>${regime}</strong>.</div>
+    `;
+
+    if (fs >= nyq) {
+      stepsHtml += `<div class="step-item">بما أن fs &ge; 2f، لا يوجد أي ارتداد أو تشوه، والتردد المقروء هو <strong>fa = ${f} Hz</strong>.</div>`;
+    } else if (!isSevere) {
+      stepsHtml += `
+        <div class="step-item">بما أن ⅔f &lt; fs &lt; 2f، يصح استخدام قانون الفرق البسيط: <strong>fa = | fs - f | = | ${fs} - ${f} | = ${faCorrect.toFixed(2)} Hz</strong>.</div>
+      `;
+    } else {
+      let ratio = f / fn;
+      stepsHtml += `
+        <div class="step-item"><strong>الطريقة 1 (مخطط الانطواء Folding Diagram):</strong><br>
+          • تردد الانطواء: f<sub>folding</sub> = fs / 2 = ${fs} / 2 = <strong>${fn.toFixed(2)} Hz</strong>.<br>
+          • التردد المنسوب: f / f<sub>folding</sub> = ${f} / ${fn.toFixed(2)} = <strong>${ratio.toFixed(3)}</strong>.<br>
+          • بالهبوط عمودياً من النقطة ${ratio.toFixed(2)} على المخطط &larr; نجد النسبة المقروءة = <strong>${(faCorrect/fn).toFixed(3)}</strong>.<br>
+          • إذن fa = ${(faCorrect/fn).toFixed(3)} &times; ${fn.toFixed(2)} = <strong>${faCorrect.toFixed(2)} Hz</strong>.
+        </div>
+        <div class="step-item"><strong>الطريقة 2 (معادلة سيمبالا الشاملة Universal Formula):</strong><br>
+          • fa = | f - fs &times; round(f / fs) | = | ${f} - ${fs} &times; round(${(f/fs).toFixed(2)}) | = | ${f} - ${fs} &times; ${n} | = <strong>${faCorrect.toFixed(2)} Hz</strong>.
+        </div>
+      `;
+    }
+    document.getElementById('lec_steps').innerHTML = stepsHtml;
+  }
+
   window.onload = function() {
+    solveLec();
     solveP1();
     solveP2();
     solveP3();
