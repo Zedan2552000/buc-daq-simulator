@@ -455,9 +455,321 @@
     font-size: 0.9rem;
     color: #1e40af;
   }
+
+  /* ==================== AUTH & PRESENCE STYLES ==================== */
+  .auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(10px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .auth-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+    border: 1.5px solid #cbd5e1;
+  }
+
+  .auth-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: white;
+    padding: 22px 24px;
+    text-align: center;
+    position: relative;
+  }
+
+  .auth-header h2 {
+    font-size: 1.35rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .auth-header p {
+    font-size: 0.85rem;
+    opacity: 0.9;
+  }
+
+  .auth-tabs {
+    display: flex;
+    background: #f1f5f9;
+    border-bottom: 1.5px solid #e2e8f0;
+  }
+
+  .auth-tab-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+
+  .auth-tab-btn.active {
+    background: white;
+    color: #1e40af;
+    border-bottom-color: #1e40af;
+  }
+
+  .auth-body {
+    padding: 24px;
+  }
+
+  .auth-error {
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    color: #991b1b;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: none;
+    line-height: 1.5;
+  }
+
+  .auth-success {
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    color: #166534;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  /* Pulse Dot Animation */
+  .pulse-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: pulseGlow 1.8s infinite;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+
+  @keyframes pulseGlow {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  }
+
+  .presence-pill {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 6px 14px;
+    border-radius: 30px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .presence-pill:hover {
+    background: rgba(255, 255, 255, 0.28);
+    transform: translateY(-1px);
+  }
+
+  /* Active Users Drawer / Modal */
+  .users-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 99998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .users-modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 650px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .users-modal-header {
+    background: #f8fafc;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .users-modal-body {
+    padding: 16px 20px;
+    overflow-y: auto;
+  }
+
+  .user-card-item {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+
+  .user-card-item.admin-card {
+    background: #fffbeb;
+    border-color: #fde68a;
+  }
+
+  .user-card-item:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .user-badge-role {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  .role-admin { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+  .role-student { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+
 </style>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
+
+<!-- ==================== AUTHENTICATION GATEWAY MODAL ==================== -->
+<div id="auth_modal" class="auth-overlay">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div style="font-size:0.8rem; font-weight:700; opacity:0.85; margin-bottom:2px;">جامعة بدر بالقاهرة (BUC) — كلية الهندسة والتكنولوجيا</div>
+      <h2>منصة Data Acquisition & LabVIEW</h2>
+      <p>بوابة الدخول الذكية للسكشن — إشراف: م. محمد زيدان</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button id="tab_student_btn" class="auth-tab-btn active" onclick="switchAuthTab('student')">
+        🎓 تسجيل دخول طالب
+      </button>
+      <button id="tab_admin_btn" class="auth-tab-btn" onclick="switchAuthTab('admin')">
+        👑 تسجيل دخول المشرف (Admin)
+      </button>
+    </div>
+
+    <!-- Student Login Form -->
+    <div id="student_form" class="auth-body">
+      <div id="student_error" class="auth-error"></div>
+      <div id="student_success" class="auth-success"></div>
+
+      <div class="input-group">
+        <label>كود الطالب الجامعي (Student Code / ID) * :</label>
+        <input type="text" id="auth_student_code" class="input-control" placeholder="مثال: 2024006612" oninput="onStudentCodeInput()">
+        <div id="code_lookup_hint" style="font-size:0.78rem; color:#1e40af; font-weight:700; margin-top:3px; display:none;"></div>
+      </div>
+
+      <div class="input-group">
+        <label>السكشن الدراسي (Section Group) * :</label>
+        <select id="auth_student_section" class="input-control">
+          <option value="" disabled selected>-- اختر السكشن المسجل به --</option>
+          <option value="A1">Section A1</option>
+          <option value="A2">Section A2</option>
+          <option value="A3">Section A3</option>
+          <option value="A4">Section A4</option>
+          <option value="A5">Section A5</option>
+          <option value="A6">Section A6</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>اسم الطالب (ثنائي أو ثلاثي بالعربي أو الإنجليزي) * :</label>
+        <input type="text" id="auth_student_name" class="input-control" placeholder="مثال: يوسف عاطف أو Youssef Atef">
+        <div style="font-size:0.75rem; color:#64748b; margin-top:3px;">
+          💡 اكتب اسمك كما هو مسجل بقائمة السكشن (يتم التحقق تلقائياً سواء بالعربي أو بالإنجليزي).
+        </div>
+      </div>
+
+      <button class="btn" style="width:100%; justify-content:center; padding:12px; font-size:1rem; margin-top:8px;" onclick="submitStudentAuth()">
+        🚀 الدخول إلى منصة الكورس
+      </button>
+    </div>
+
+    <!-- Admin Login Form -->
+    <div id="admin_form" class="auth-body" style="display:none;">
+      <div id="admin_error" class="auth-error"></div>
+
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:10px 14px; font-size:0.85rem; color:#1e40af; font-weight:700; margin-bottom:14px;">
+        🛡️ وضع المشرف مخصص للمعيد (م. محمد زيدan) — لا يتطلب إدخال الاسم أو كود الطالب.
+      </div>
+
+      <div class="input-group">
+        <label>الرقم السري للمشرف (Admin Secret PIN) * :</label>
+        <input type="password" id="auth_admin_pin" class="input-control" placeholder="أدخل الرقم السري المعتمد">
+      </div>
+
+      <button class="btn btn-warning" style="width:100%; justify-content:center; padding:12px; font-size:1rem; margin-top:8px; font-weight:800;" onclick="submitAdminAuth()">
+        👑 تسجيل الدخول كمشرف
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== ACTIVE ONLINE USERS MODAL ==================== -->
+<div id="active_users_modal" class="users-modal" onclick="closeUsersModal(event)">
+  <div class="users-modal-content" onclick="event.stopPropagation()">
+    <div class="users-modal-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="pulse-dot"></span>
+        <h3 style="font-weight:900; color:#1e3a8a; font-size:1.15rem;">المتواجدون الآن في المنصة (Live Active Users)</h3>
+      </div>
+      <button onclick="closeUsersModal()" style="border:none; background:#f1f5f9; border-radius:50%; width:32px; height:32px; font-size:1.1rem; cursor:pointer; font-weight:bold;">&times;</button>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div style="background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:10px 20px; display:flex; gap:15px; flex-wrap:wrap; font-size:0.85rem; font-weight:700;">
+      <div>👥 الإجمالي: <strong id="stat_total_count" style="color:#1e40af;">1</strong></div>
+      <div>👑 المشرفين: <strong id="stat_admin_count" style="color:#d97706;">0</strong></div>
+      <div>🎓 الطلاب: <strong id="stat_student_count" style="color:#15803d;">1</strong></div>
+    </div>
+
+    <div class="users-modal-body" id="active_users_list">
+      <!-- Injected dynamically via JS -->
+    </div>
+  </div>
+</div>
+
 
 <header>
   <div class="header-inner">
@@ -469,6 +781,20 @@
       <a href="Sheet1_Master_Tutorial_Arabic.pdf" target="_blank" class="btn" style="background:#f59e0b; color:#1e293b; text-decoration:none; font-weight:800; border-radius:30px; padding:8px 18px; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
         📥 تحميل مذكرة الحلول كاملة (PDF)
       </a>
+      
+      <!-- Live Online Presence Badge -->
+      <button id="presence_btn" class="presence-pill" onclick="openUsersModal()">
+        <span class="pulse-dot"></span>
+        <span>المتواجدون الآن:</span>
+        <strong id="online_count_badge" style="font-family:'Fira Code'; font-size:1rem;">1</strong>
+      </button>
+
+      <!-- Logged In User Profile -->
+      <div id="user_profile_badge" class="ta-badge" style="display:none; align-items:center; gap:8px;">
+        <span id="user_profile_name">👨‍🎓 طالب</span>
+        <button onclick="logoutUser()" style="background:rgba(239,68,68,0.3); border:1px solid rgba(239,68,68,0.5); color:white; border-radius:15px; padding:2px 8px; font-size:0.75rem; cursor:pointer; font-family:inherit; font-weight:bold;">خروج 🚪</button>
+      </div>
+
       <div class="ta-badge">
         👨‍🏫 إعداد وتدريس: م. محمد زيدان (BUC)
       </div>
@@ -2122,7 +2448,385 @@
     document.getElementById('lec_steps').innerHTML = stepsHtml;
   }
 
+  
+  // ==================== BUC STUDENTS ROSTER DATABASE ====================
+  const STUDENTS_DB = [{"code": "2024006612", "name_en": "Youssef Atef elshahat Mohammed", "name_ar": "يوسف عاطف الشحات محمد", "section": "A6", "lecture": "A6"}, {"code": "2024006257", "name_en": "Ali Emad Mohamed Kamal Ahmed Hassan", "name_ar": "علي عماد محمد كمال أحمد حسن", "section": "A6", "lecture": "A6"}, {"code": "2024030052", "name_en": "Salah Hamada Salah Mohamed", "name_ar": "صلاح حمادة صلاح محمد", "section": "A6", "lecture": "A6"}, {"code": "2024030070", "name_en": "Norhan Helmy Elsayed Berry", "name_ar": "نورهان حلمي السيد بري", "section": "A6", "lecture": "A6"}, {"code": "2025034091", "name_en": "malak ayman kamel moslhy hamed", "name_ar": "ملك أيمن كامل مصلحي حامد", "section": "A6", "lecture": "A6"}, {"code": "2024015395", "name_en": "zeyad yasser abdelatif ahmed", "name_ar": "زياد ياسر عبداللطيف أحمد", "section": "A6", "lecture": "A6"}, {"code": "2024012091", "name_en": "youssef osama ismael abd el kwy", "name_ar": "يوسف أسامة إسماعيل عبد القوي", "section": "A6", "lecture": "A6"}, {"code": "2024012878", "name_en": "hla mohamed nasr mohamedqatary", "name_ar": "حلا محمد نصر محمد قطري", "section": "A6", "lecture": "A6"}, {"code": "2024000710", "name_en": "Jana Mahmoud Tamer Hosny", "name_ar": "جنى محمود تامر حسني", "section": "A6", "lecture": "A6"}, {"code": "2024010375", "name_en": "sara mohamed hamed ahmed matar", "name_ar": "سارة محمد حامد أحمد مطر", "section": "A6", "lecture": "A6"}, {"code": "2024019602", "name_en": "Kristeen Magdy Nady Khalaf GERGES", "name_ar": "كريستين مجدي نادي خلف جرجس", "section": "A6", "lecture": "A6"}, {"code": "2024017981", "name_en": "hamdy elsayed abdelhamed MAHMOUD fayed", "name_ar": "حمدي السيد عبدالحميد محمود فايد", "section": "A6", "lecture": "A6"}, {"code": "2024034669", "name_en": "ZIAD TAMER ABOELSOUD IBRAHEM", "name_ar": "زياد تامر أبو السعود إبراهيم", "section": "A6", "lecture": "A6"}, {"code": "2024037905", "name_en": "Abdulhadi Alaa Ali Elsayed", "name_ar": "عبدالهادي علاء علي السيد", "section": "A6", "lecture": "A6"}, {"code": "2024037439", "name_en": "mahmoud Ahmed Mohamed Ibrahim", "name_ar": "محمود أحمد محمد إبراهيم", "section": "A6", "lecture": "A6"}, {"code": "2024005933", "name_en": "Ziad mohamed elsayed abdelraheem", "name_ar": "زياد محمد السيد عبدالرحيم", "section": "A6", "lecture": "A6"}, {"code": "2024007518", "name_en": "Ali Mohamed Ali El Sayed", "name_ar": "علي محمد علي سيد", "section": "A6", "lecture": "A6"}, {"code": "2024003043", "name_en": "adham assem mohamed esmat habib", "name_ar": "أدهم عاصم محمد عصمت حبيب", "section": "A6", "lecture": "A6"}, {"code": "2024034395", "name_en": "Mohamed hassan hamed mohamed IBRAHIM", "name_ar": "محمد حسن حامد محمد إبراهيم", "section": "A6", "lecture": "A6"}, {"code": "2024013726", "name_en": "Mahmoud Adel Hashim Ahmed", "name_ar": "محمود عادل هاشم أحمد", "section": "A6", "lecture": "A6"}, {"code": "2024009069", "name_en": "mohamed Hammad Mohamed Khalil", "name_ar": "محمد حماد محمد خليل", "section": "A6", "lecture": "A6"}, {"code": "2024019044", "name_en": "Abdelrhman Mostafa Fargly Abozed", "name_ar": "عبدالرحمن مصطفى فرجلي أبو زيد", "section": "A6", "lecture": "A6"}, {"code": "2024001831", "name_en": "Steven Hany Makram RADY SHEHATA", "name_ar": "ستيفن هاني مكرم راضي شحاتة", "section": "A6", "lecture": "A6"}, {"code": "2024035701", "name_en": "Mohamed Said Mostafa Mohamed", "name_ar": "محمد سعيد مصطفى محمد", "section": "A6", "lecture": "A6"}, {"code": "2024034820", "name_en": "omar hussien alam abdeldaym", "name_ar": "عمر حسين علام عبدالدايم", "section": "A6", "lecture": "A6"}, {"code": "2024009371", "name_en": "Youssif Hamed Ahmed Asraan", "name_ar": "يوسف حامد أحمد عصران", "section": "A4", "lecture": "A4"}, {"code": "2024019340", "name_en": "Ahmed Moustafa Mohamed Ebada", "name_ar": "أحمد مصطفى محمد عبادة", "section": "A4", "lecture": "A4"}, {"code": "2024030381", "name_en": "Youssef Omar Fayez Amin", "name_ar": "يوسف عمر فايز أمين", "section": "A4", "lecture": "A4"}, {"code": "2024039183", "name_en": "Karen Hazem Mohamed Ahmed atwa", "name_ar": "كارين حازم محمد أحمد عطوة", "section": "A4", "lecture": "A4"}, {"code": "2024017358", "name_en": "Yousef amro abdellatif hamed", "name_ar": "يوسف عمرو عبداللطيف حامد", "section": "A4", "lecture": "A4"}, {"code": "2024013683", "name_en": "Ali Aboelzahab Ali Kasem metwally", "name_ar": "علي أبو الذهب علي قاسم متولي", "section": "A4", "lecture": "A4"}, {"code": "2022003646", "name_en": "Fares Mohamed Ahmed kalil", "name_ar": "فارس محمد أحمد خليل", "section": "A4", "lecture": "A4"}, {"code": "2024017167", "name_en": "Ahmed Abd elhafeez Badry Hassan", "name_ar": "أحمد عبد الحفيظ بدري حسن", "section": "A2", "lecture": "A2"}, {"code": "2024021279", "name_en": "Ahmed Mohamed El Sayed Abdul Mutajalli Abu Al Hassan SLEM", "name_ar": "أحمد محمد سيد عبد المتجلي أبو حسن سليم", "section": "A2", "lecture": "A2"}, {"code": "2024005220", "name_en": "Karim Mohammad Kamal ABDELFATAH", "name_ar": "كريم محمد كمال عبدالفتاح", "section": "A2", "lecture": "A2"}, {"code": "2024016851", "name_en": "Omar Afifi Rashed Mohamed", "name_ar": "عمر عفيفي راشد محمد", "section": "A2", "lecture": "A2"}, {"code": "2024003367", "name_en": "Mickeal Magdy Derias Mickeal", "name_ar": "ميخائيل مجدي درياس ميخائيل", "section": "A2", "lecture": "A2"}, {"code": "2024013321", "name_en": "ahmed ehab mohamed abd elwahab", "name_ar": "أحمد إيهاب محمد عبد الوهاب", "section": "A2", "lecture": "A2"}, {"code": "2024013074", "name_en": "mayar mohamed aziz mahmoud", "name_ar": "مايار محمد عزيز محمود", "section": "A2", "lecture": "A2"}, {"code": "2024019136", "name_en": "Mostafa Mohamed Ibrahim desoky", "name_ar": "مصطفى محمد إبراهيم دسوقي", "section": "A2", "lecture": "A2"}, {"code": "2024029589", "name_en": "Ahmed Mahmoud Awadallah Mohamed", "name_ar": "أحمد محمود عوض الله محمد", "section": "A2", "lecture": "A2"}, {"code": "2024034876", "name_en": "Ahmed Abdullelah Mgahed Mosaad Hasson", "name_ar": "أحمد عبدالإله مجاهد مساعد حسون", "section": "A2", "lecture": "A2"}, {"code": "2022008059", "name_en": "ahmed shadi hassan abdelwahb badnjki", "name_ar": "أحمد شادي حسن عبدالوهاب بدنجكي", "section": "A2", "lecture": "A2"}, {"code": "2024026914", "name_en": "Mayhob Ehab mayhob Hussein abdelsatar", "name_ar": "ميهوب إيهاب ميهوب حسين عبدالستار", "section": "A2", "lecture": "A2"}, {"code": "2022008917", "name_en": "AHMED ABDELHAMID ISAMIL ALNAGAR", "name_ar": "أحمد عبدالحميد إسماعيل النجار", "section": "A2", "lecture": "A2"}, {"code": "2024018513", "name_en": "ahmed mohamed ahmed mahmoud", "name_ar": "أحمد محمد أحمد محمود", "section": "A2", "lecture": "A2"}, {"code": "2022000190", "name_en": "Amr Hazem Farouk Zaazaa", "name_ar": "عمرو حازم فاروق زعزع", "section": "A2", "lecture": "A2"}, {"code": "2024022538", "name_en": "fady hany sanid saeed", "name_ar": "فادي هاني سنيد سعيد", "section": "A5", "lecture": "A5"}, {"code": "2024021348", "name_en": "Amena yasser mohamed Ibrahem", "name_ar": "آمنة ياسر محمد إبراهيم", "section": "A5", "lecture": "A5"}, {"code": "2024004388", "name_en": "Mohamed Gomaa Hassaan Ismail Ahmed", "name_ar": "محمد جمعة حسان إسماعيل أحمد", "section": "A5", "lecture": "A5"}, {"code": "2024014115", "name_en": "Mazen Mohamed Hazem Hassan Ashry", "name_ar": "مازن محمد حازم حسن عشري", "section": "A5", "lecture": "A5"}, {"code": "2024011378", "name_en": "Mohamed Mamdouh Amin sedky El ghawy", "name_ar": "محمد ممدوح أمين صدقي الغوي", "section": "A5", "lecture": "A5"}, {"code": "2024005075", "name_en": "Yomna Abdelkawi Abdelkawi Elshennawi", "name_ar": "يمنى عبدالقوي عبدالقوي الشناوي", "section": "A5", "lecture": "A5"}, {"code": "2024014533", "name_en": "yassmin ibrahim abdelhafez mohamed", "name_ar": "ياسمين إبراهيم عبدالحافظ محمد", "section": "A5", "lecture": "A5"}, {"code": "2024017662", "name_en": "Yasmin Ahmed Yousry Mohamed", "name_ar": "ياسمين أحمد يسري محمد", "section": "A5", "lecture": "A5"}, {"code": "2024015402", "name_en": "Abdelrhman Ehab Mohmed Bayoumy FARAG", "name_ar": "عبدالرحمن إيهاب محمد بيومي فرج", "section": "A5", "lecture": "A5"}, {"code": "2025023766", "name_en": "Habiba Ismail Mostafa HASSAN MOHAMED", "name_ar": "حبيبة إسماعيل مصطفى حسن محمد", "section": "A5", "lecture": "A5"}, {"code": "2024025291", "name_en": "SAJAA WAIL SAEED BA WAZIR", "name_ar": "سجى وائل سعيد با وزير", "section": "A5", "lecture": "A5"}, {"code": "2024032362", "name_en": "sadan eyad hasan hasan", "name_ar": "سدن إياد حسن حسن", "section": "A5", "lecture": "A5"}, {"code": "2024005445", "name_en": "Jana Tamer Sayed Omar", "name_ar": "جنى تامر سيد عمر", "section": "A5", "lecture": "A5"}, {"code": "2024016911", "name_en": "nourhan hesham fathy mohamed shaheen", "name_ar": "نورهان هشام فتحي محمد شاهين", "section": "A5", "lecture": "A5"}, {"code": "2024030035", "name_en": "sama mohamed el said Radwan", "name_ar": "سما محمد سعيد رضوان", "section": "A5", "lecture": "A5"}, {"code": "2024002664", "name_en": "Hady Muhammad Abdulfattah Wahb", "name_ar": "هادي محمد عبدالفتاح وهب", "section": "A5", "lecture": "A5"}, {"code": "2024018240", "name_en": "Andrew Emil Gerges HANNA GERGES", "name_ar": "أندرو إميل جرجس حنا جرجس", "section": "A5", "lecture": "A5"}, {"code": "2024008904", "name_en": "Saber Ahmed Saber ABDELMENEAM Mohamed", "name_ar": "صابر أحمد صابر عبدالمنعم محمد", "section": "A5", "lecture": "A5"}, {"code": "20195231", "name_en": "Mohmed Nasr Ahmed Ahmed", "name_ar": "محمد نصر أحمد أحمد", "section": "A5", "lecture": "A5"}, {"code": "2024019633", "name_en": "Mostafa osama mostafa abdulrahem", "name_ar": "مصطفى أسامة مصطفى عبدالرحيم", "section": "A5", "lecture": "A5"}, {"code": "2024030362", "name_en": "Zyad Mihamed Soliman ibrahim Abdelhafez", "name_ar": "زياد محمد سليمان إبراهيم عبدالحافظ", "section": "A1", "lecture": "A1"}, {"code": "2024015292", "name_en": "Mostafa Amr Mostafa Mahmoud", "name_ar": "مصطفى عمرو مصطفى محمود", "section": "A1", "lecture": "A1"}, {"code": "2024026742", "name_en": "omar Mohamed Mostafa Mohamed", "name_ar": "عمر محمد مصطفى محمد", "section": "A1", "lecture": "A1"}, {"code": "2024014416", "name_en": "omar wael mohamed elfiky", "name_ar": "عمر وائل محمد الفقي", "section": "A1", "lecture": "A1"}, {"code": "2024015203", "name_en": "zakaria elsayed zakaria mohamed abdallah", "name_ar": "زكريا السيد زكريا محمد عبدالله", "section": "A1", "lecture": "A1"}, {"code": "2024017321", "name_en": "Sherif Mohamed Elsayed Zahran", "name_ar": "شريف محمد السيد زهران", "section": "A1", "lecture": "A1"}, {"code": "2024016301", "name_en": "Anas Ashraf Mohamed Mohamed IBRAHIM", "name_ar": "أنس أشرف محمد محمد إبراهيم", "section": "A1", "lecture": "A1"}, {"code": "2024026581", "name_en": "Momen Mohamed Ahmed Samk", "name_ar": "مؤمن محمد أحمد سمك", "section": "A1", "lecture": "A1"}, {"code": "2024003191", "name_en": "Marwan Ahmed Gomaa Ali", "name_ar": "مروان أحمد جمعة علي", "section": "A1", "lecture": "A1"}, {"code": "2024010319", "name_en": "Yousef Abd Al nasser Tayser Ahmed", "name_ar": "يوسف عبد ناصر تيسير أحمد", "section": "A1", "lecture": "A1"}, {"code": "2024003848", "name_en": "Omar nasser moubarak elsayed aly", "name_ar": "عمر ناصر مبارك السيد علي", "section": "A1", "lecture": "A1"}, {"code": "2024037980", "name_en": "Omar ahmed sayed esmaiel shabeb", "name_ar": "عمر أحمد سيد إسماعيل شبيب", "section": "A1", "lecture": "A1"}, {"code": "2023037811", "name_en": "OMAR HAMDY MOHAMED AMIN ABOELMAGD", "name_ar": "عمر حمدي محمد أمين أبو المجد", "section": "A1", "lecture": "A1"}, {"code": "2024013640", "name_en": "omar hassen ahmed abd El hafiz", "name_ar": "عمر حسن أحمد عبد حافظ", "section": "A1", "lecture": "A1"}, {"code": "2024026152", "name_en": "Eslam AbdelMAwgod Elshahat abdelhafez", "name_ar": "إسلام عبدالموجود الشحات عبدالحافظ", "section": "A1", "lecture": "A1"}, {"code": "2024008892", "name_en": "Ahmed Mohamed Ali Abdelhamid", "name_ar": "أحمد محمد علي عبدالحميد", "section": "A1", "lecture": "A1"}, {"code": "2024020895", "name_en": "Mohanad Hussien Ahmed Elnady", "name_ar": "مهند حسين أحمد النادي", "section": "A1", "lecture": "A1"}, {"code": "2024012780", "name_en": "youssef Mohamed emadeldin ali mohamed", "name_ar": "يوسف محمد عماد الدين علي محمد", "section": "A1", "lecture": "A1"}, {"code": "2025005123", "name_en": "Ahmed Fetouh Hassane Hassanein Gouda", "name_ar": "أحمد فتوح حسانين حسانين جودة", "section": "A1", "lecture": "A1"}, {"code": "2025014758", "name_en": "Karim Rafik Elsayed Mohamed", "name_ar": "كريم رفيق السيد محمد", "section": "A1", "lecture": "A1"}, {"code": "2024030309", "name_en": "Raneem Mohamed Abd elbaky Azab", "name_ar": "رنيم محمد عبد الباقي عزب", "section": "A3", "lecture": "A3"}, {"code": "2024021324", "name_en": "Mariem Hatem Mohamed Ahmed", "name_ar": "مريم حاتم محمد أحمد", "section": "A3", "lecture": "A3"}, {"code": "2024007543", "name_en": "Shahd Mohamed patea Kamal", "name_ar": "شهد محمد بطيء كمال", "section": "A3", "lecture": "A3"}, {"code": "2024013152", "name_en": "Mahmoud Ehab Aboseif Elsaid", "name_ar": "محمود إيهاب أبو سيف السعيد", "section": "A3", "lecture": "A3"}, {"code": "2024017347", "name_en": "Mohamed Yahia Ahmed ABDELRAHMAN Menesy", "name_ar": "محمد يحيى أحمد عبدالرحمن المنيسي", "section": "A3", "lecture": "A3"}, {"code": "2024015262", "name_en": "Mohamed Sameh Gomaa Aboelkher", "name_ar": "محمد سامح جمعة أبو الخير", "section": "A3", "lecture": "A3"}, {"code": "2024021266", "name_en": "Mohamed Mohsen Aboelkher Salem", "name_ar": "محمد محسن أبو الخير سالم", "section": "A3", "lecture": "A3"}, {"code": "2024014440", "name_en": "mohammad hassan abdelhamed hassan", "name_ar": "محمد حسن عبدالحميد حسن", "section": "A3", "lecture": "A3"}, {"code": "2024039102", "name_en": "Mohamed Ezzat Mostafa Mohamed", "name_ar": "محمد عزت مصطفى محمد", "section": "A3", "lecture": "A3"}, {"code": "2024017162", "name_en": "mohamed hossam eldin fathy mohamed", "name_ar": "محمد حسام الدين فتحي محمد", "section": "A3", "lecture": "A3"}, {"code": "2021005712", "name_en": "Eiad Ashraf Ahmed Abdelghany", "name_ar": "إياد أشرف أحمد عبدالغني", "section": "A3", "lecture": "A3"}, {"code": "2023023672", "name_en": "mohamed hossam eldeen khalil elkhateeb", "name_ar": "محمد حسام الدين خليل الخطيب", "section": "A3", "lecture": "A3"}, {"code": "2024032600", "name_en": "youssef abdelmawla abozeid abdo", "name_ar": "يوسف عبدالمولى أبو زيد عبده", "section": "A3", "lecture": "A3"}, {"code": "2024000143", "name_en": "Youssef Mohamed Saad Youssef", "name_ar": "يوسف محمد سعد يوسف", "section": "A3", "lecture": "A3"}, {"code": "2022008418", "name_en": "Mohamed Elsayed Ibrahim Elsayed", "name_ar": "محمد السيد إبراهيم السيد", "section": "A3", "lecture": "A3"}, {"code": "2023019876", "name_en": "saad mohammed saad hassan", "name_ar": "سعد محمد سعد حسن", "section": "A4", "lecture": "A1"}, {"code": "2024021262", "name_en": "Yahya Mohamed El sayed Abd el zaher", "name_ar": "يحيى محمد سيد عبد ظاهر", "section": "A4", "lecture": "A1"}, {"code": "2024017271", "name_en": "jana hany mohamed nassar", "name_ar": "جنى هاني محمد نصار", "section": "A4", "lecture": "A1"}, {"code": "2024037057", "name_en": "abdelrahman soliman abdelrahman mohamed", "name_ar": "عبدالرحمن سليمان عبدالرحمن محمد", "section": "A5", "lecture": "A1"}, {"code": "2024036300", "name_en": "abdelrahman nedal ayed hamod khiralla", "name_ar": "عبدالرحمن نضال عايد حمود خير الله", "section": "A5", "lecture": "A1"}, {"code": "2024009278", "name_en": "Antonyos Atef Hakeem Gerges", "name_ar": "أنطونيوس عاطف حكيم جرجس", "section": "A6", "lecture": "A1"}, {"code": "2024005562", "name_en": "Kareem Ahmed Badralden Awaad", "name_ar": "كريم أحمد بدر الدين عواد", "section": "A4", "lecture": "A6"}, {"code": "2024036656", "name_en": "abdallah ahmed atef elshnety", "name_ar": "عبدالله أحمد عاطف الشناتي", "section": "A4", "lecture": "A6"}, {"code": "2024014596", "name_en": "HASSAN ELSAYED MOHAMMED ELSABER HASSAN AHMED SARHAN", "name_ar": "حسن السيد محمد الصابر حسن أحمد سرحان", "section": "A3", "lecture": "A2"}, {"code": "2024009089", "name_en": "Ahmed Mohamed El sayed Abd El aal", "name_ar": "أحمد محمد سيد عبد العال", "section": "A3", "lecture": "A1"}, {"code": "2024034589", "name_en": "ehab mohamed morgan", "name_ar": "إيهاب محمد مرجان", "section": "A1", "lecture": "A4"}, {"code": "2023002440", "name_en": "Abdelrahman Kamal Abdelrhman Noureldeen", "name_ar": "عبدالرحمن كمال عبدالرحمن نور الدين", "section": "A2", "lecture": "A5"}, {"code": "202600027500", "name_en": "Abdelrhman Hesham Ahmed Elgharaaz", "name_ar": "عبدالرحمن هشام أحمد الغراز", "section": "A5", "lecture": "A4"}];
+
+  // State Management
+  let currentUser = null;
+  let activeUsersMap = {};
+  let mqttClient = null;
+  let broadcastChannel = null;
+
+  // Arabic Normalization Helper
+  function normAr(str) {
+    if (!str) return '';
+    return str.toString().toLowerCase()
+      .replace(/[ً-ٰٟ]/g, '') // remove harakat
+      .replace(/[أإآ]/g, 'ا')
+      .replace(/ة/g, 'ه')
+      .replace(/[ىي]/g, 'ي')
+      .replace(/عبد\s+/g, 'عبد')
+      .replace(/ابو\s+/g, 'ابو')
+      .replace(/[^a-z0-9\u0600-\u06FF]/g, '')
+      .trim();
+  }
+
+  function switchAuthTab(tab) {
+    document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('student_error').style.display = 'none';
+    document.getElementById('admin_error').style.display = 'none';
+
+    if (tab === 'student') {
+      document.getElementById('tab_student_btn').classList.add('active');
+      document.getElementById('student_form').style.display = 'block';
+      document.getElementById('admin_form').style.display = 'none';
+    } else {
+      document.getElementById('tab_admin_btn').classList.add('active');
+      document.getElementById('student_form').style.display = 'none';
+      document.getElementById('admin_form').style.display = 'block';
+    }
+  }
+
+  // Auto-fill or hint on code input
+  function onStudentCodeInput() {
+    let code = document.getElementById('auth_student_code').value.trim();
+    let hintEl = document.getElementById('code_lookup_hint');
+    if (code.length >= 7) {
+      let found = STUDENTS_DB.find(s => s.code === code);
+      if (found) {
+        hintEl.style.display = 'block';
+        hintEl.innerHTML = `✓ تم العثور على: <strong>${found.name_ar}</strong> (${found.name_en}) — سكشن ${found.section}`;
+        // Auto select section
+        document.getElementById('auth_student_section').value = found.section;
+      } else {
+        hintEl.style.display = 'none';
+      }
+    } else {
+      hintEl.style.display = 'none';
+    }
+  }
+
+  function submitStudentAuth() {
+    let code = document.getElementById('auth_student_code').value.trim();
+    let sec = document.getElementById('auth_student_section').value;
+    let name = document.getElementById('auth_student_name').value.trim();
+    let errEl = document.getElementById('student_error');
+
+    errEl.style.display = 'none';
+
+    if (!code) {
+      showError(errEl, '⚠️ برجاء كتابة كود الطالب (ID)');
+      return;
+    }
+    if (!sec) {
+      showError(errEl, '⚠️ برجاء اختيار السكشن الدراسي');
+      return;
+    }
+    if (!name) {
+      showError(errEl, '⚠️ برجاء كتابة اسمك (بالعربي أو بالإنجليزي)');
+      return;
+    }
+
+    // Lookup in database
+    let student = STUDENTS_DB.find(s => s.code === code);
+    if (!student) {
+      showError(errEl, `❌ كود الطالب (${code}) غير مسجل في كشوفات الكورس! برجاء مراجعة الرقم.`);
+      return;
+    }
+
+    // Check Section
+    if (student.section !== sec) {
+      showError(errEl, `⚠️ هذا الكود مسجل في سكشن (${student.section}) وليس سكشن (${sec})! برجاء اختيار سكشنك الصحيح.`);
+      return;
+    }
+
+    // Name Verification (Arabic & English Fuzzy/Token check)
+    let inputTokens = name.split(/\s+/).filter(w => w.length > 1);
+    let normInputAr = inputTokens.map(w => normAr(w));
+    let normInputEn = inputTokens.map(w => w.toLowerCase());
+
+    let dbArTokens = student.name_ar.split(/\s+/).map(w => normAr(w));
+    let dbEnTokens = student.name_en.toLowerCase().split(/\s+/);
+
+    // Check if at least the first 2 words match either Arabic or English
+    let matchAr = normInputAr.length > 0 && normInputAr.slice(0, 2).every(t => dbArTokens.includes(t));
+    let matchEn = normInputEn.length > 0 && normInputEn.slice(0, 2).every(t => dbEnTokens.includes(t));
+
+    // Also single word fallback if student writes only first name
+    if (inputTokens.length === 1) {
+      matchAr = dbArTokens.includes(normInputAr[0]);
+      matchEn = dbEnTokens.includes(normInputEn[0]);
+    }
+
+    if (!matchAr && !matchEn) {
+      showError(errEl, `❌ الاسم المدخل (${name}) غير متطابق مع صاحب هذا الكود المسجل بالكشوفات:<br><strong>${student.name_ar}</strong> (${student.name_en}).`);
+      return;
+    }
+
+    // Success! Log the student in
+    currentUser = {
+      id: 'usr_' + code + '_' + Math.random().toString(36).substr(2, 6),
+      name: student.name_ar + ' (' + student.name_en + ')',
+      displayName: student.name_ar,
+      role: 'student',
+      section: student.section,
+      code: student.code,
+      loginTime: Date.now()
+    };
+
+    finishLogin();
+  }
+
+  function submitAdminAuth() {
+    let pin = document.getElementById('auth_admin_pin').value.trim();
+    let errEl = document.getElementById('admin_error');
+
+    errEl.style.display = 'none';
+
+    if (pin === '2552000') {
+      currentUser = {
+        id: 'admin_' + Math.random().toString(36).substr(2, 6),
+        name: 'م. محمد زيدان (مشرف الكورس)',
+        displayName: 'م. محمد زيدان (Admin)',
+        role: 'admin',
+        section: 'مشرف الكورس (Faculty)',
+        code: 'ADMIN-2552000',
+        loginTime: Date.now()
+      };
+      finishLogin();
+    } else {
+      showError(errEl, '❌ الرقم السري للمشرف غير صحيح! برجاء التأكد من كتابة الرقم السري المعتمد.');
+    }
+  }
+
+  function showError(el, msg) {
+    el.style.display = 'block';
+    el.innerHTML = msg;
+  }
+
+  function finishLogin() {
+    // Store in session storage so it prompts again in new browser session
+    sessionStorage.setItem('buc_daq_session_user', JSON.stringify(currentUser));
+
+    // Hide Modal
+    document.getElementById('auth_modal').style.display = 'none';
+
+    // Update Header UI
+    let profileBadge = document.getElementById('user_profile_badge');
+    let profileName = document.getElementById('user_profile_name');
+    profileBadge.style.display = 'inline-flex';
+
+    if (currentUser.role === 'admin') {
+      profileName.innerHTML = `👑 ${currentUser.displayName} <span style="font-size:0.75rem; opacity:0.8;">(مشرف)</span>`;
+      profileBadge.style.borderColor = '#fbbf24';
+      profileBadge.style.background = 'rgba(245, 158, 11, 0.25)';
+    } else {
+      profileName.innerHTML = `🎓 ${currentUser.displayName} <span style="font-size:0.75rem; opacity:0.8;">(سكشن ${currentUser.section})</span>`;
+    }
+
+    // Start Presence Sync
+    initPresence();
+  }
+
+  function logoutUser() {
+    if (mqttClient) {
+      try {
+        mqttClient.publish('buc/daq/session/presence/v1', JSON.stringify({ id: currentUser.id, action: 'leave' }));
+      } catch(e) {}
+    }
+    if (broadcastChannel) {
+      try {
+        broadcastChannel.postMessage({ id: currentUser.id, action: 'leave' });
+      } catch(e) {}
+    }
+    sessionStorage.removeItem('buc_daq_session_user');
+    currentUser = null;
+    location.reload();
+  }
+
+  // ==================== REAL-TIME PRESENCE SYSTEM ====================
+  function initPresence() {
+    if (!currentUser) return;
+
+    // Self register in active map
+    activeUsersMap[currentUser.id] = {
+      id: currentUser.id,
+      name: currentUser.name,
+      role: currentUser.role,
+      section: currentUser.section,
+      code: currentUser.code,
+      ts: Date.now()
+    };
+    updatePresenceUI();
+
+    // Setup Local BroadcastChannel (Sync across tabs/windows)
+    try {
+      broadcastChannel = new BroadcastChannel('buc_daq_presence_channel');
+      broadcastChannel.onmessage = (event) => {
+        handlePresenceMsg(event.data);
+      };
+    } catch(e) {}
+
+    // Setup MQTT WebSocket connection
+    try {
+      const brokerUrl = 'wss://broker.emqx.io:8084/mqtt';
+      mqttClient = mqtt.connect(brokerUrl, {
+        clientId: 'client_' + currentUser.id,
+        clean: true,
+        reconnectPeriod: 5000,
+        connectTimeout: 8000
+      });
+
+      mqttClient.on('connect', () => {
+        console.log('Connected to Real-time Presence Broker');
+        mqttClient.subscribe('buc/daq/session/presence/v1');
+        broadcastHeartbeat();
+      });
+
+      mqttClient.on('message', (topic, message) => {
+        try {
+          let data = JSON.parse(message.toString());
+          handlePresenceMsg(data);
+        } catch(e) {}
+      });
+
+      mqttClient.on('error', (err) => {
+        console.log('MQTT error, fallback to broadcast:', err);
+      });
+    } catch(e) {
+      console.log('MQTT init error:', e);
+    }
+
+    // Heartbeat every 10 seconds
+    setInterval(broadcastHeartbeat, 10000);
+
+    // Clean inactive users every 5 seconds
+    setInterval(cleanInactiveUsers, 5000);
+
+    // Leave on unload
+    window.addEventListener('beforeunload', () => {
+      if (currentUser) {
+        let leaveMsg = { id: currentUser.id, action: 'leave' };
+        if (mqttClient) mqttClient.publish('buc/daq/session/presence/v1', JSON.stringify(leaveMsg));
+        if (broadcastChannel) broadcastChannel.postMessage(leaveMsg);
+      }
+    });
+  }
+
+  function broadcastHeartbeat() {
+    if (!currentUser) return;
+    let payload = {
+      id: currentUser.id,
+      name: currentUser.name,
+      role: currentUser.role,
+      section: currentUser.section,
+      code: currentUser.code,
+      ts: Date.now()
+    };
+
+    if (mqttClient && mqttClient.connected) {
+      mqttClient.publish('buc/daq/session/presence/v1', JSON.stringify(payload));
+    }
+    if (broadcastChannel) {
+      broadcastChannel.postMessage(payload);
+    }
+  }
+
+  function handlePresenceMsg(data) {
+    if (!data || !data.id) return;
+    if (data.action === 'leave') {
+      delete activeUsersMap[data.id];
+    } else {
+      activeUsersMap[data.id] = data;
+    }
+    updatePresenceUI();
+  }
+
+  function cleanInactiveUsers() {
+    let now = Date.now();
+    let changed = false;
+    for (let id in activeUsersMap) {
+      if (id !== currentUser?.id && now - activeUsersMap[id].ts > 30000) {
+        delete activeUsersMap[id];
+        changed = true;
+      }
+    }
+    if (changed) updatePresenceUI();
+  }
+
+  function updatePresenceUI() {
+    let userList = Object.values(activeUsersMap);
+    let total = userList.length;
+    let admins = userList.filter(u => u.role === 'admin').length;
+    let students = total - admins;
+
+    // Update Badges
+    document.getElementById('online_count_badge').innerText = total;
+    document.getElementById('stat_total_count').innerText = total;
+    document.getElementById('stat_admin_count').innerText = admins;
+    document.getElementById('stat_student_count').innerText = students;
+
+    // Update List inside Modal
+    let container = document.getElementById('active_users_list');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Sort: Admins first, then students
+    userList.sort((a, b) => (a.role === 'admin' ? -1 : 1));
+
+    userList.forEach(u => {
+      let isAdmin = u.role === 'admin';
+      let card = document.createElement('div');
+      card.className = `user-card-item ${isAdmin ? 'admin-card' : ''}`;
+      card.innerHTML = `
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="font-size:1.6rem;">${isAdmin ? '👑' : '🎓'}</div>
+          <div>
+            <div style="font-weight:800; color:#1e293b; font-size:0.95rem;">${u.name}</div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">
+              ${isAdmin ? '<strong style="color:#d97706;">مشرف الكورس</strong>' : 'كود الطالب: ' + u.code}
+            </div>
+          </div>
+        </div>
+        <div style="text-align:left; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <span class="user-badge-role ${isAdmin ? 'role-admin' : 'role-student'}">
+            ${isAdmin ? '👑 مشرف (Admin)' : 'سكشن ' + u.section}
+          </span>
+          <span style="font-size:0.75rem; color:#15803d; font-weight:700;">
+            <span class="pulse-dot" style="margin-left:3px;"></span> متصل الآن
+          </span>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function openUsersModal() {
+    updatePresenceUI();
+    document.getElementById('active_users_modal').style.display = 'flex';
+  }
+
+  function closeUsersModal() {
+    document.getElementById('active_users_modal').style.display = 'none';
+  }
+
+  // Check Session on Page Load
+  function checkAuthOnLoad() {
+    let stored = sessionStorage.getItem('buc_daq_session_user');
+    if (stored) {
+      try {
+        currentUser = JSON.parse(stored);
+        finishLogin();
+        return;
+      } catch(e) {}
+    }
+    // Show Modal
+    document.getElementById('auth_modal').style.display = 'flex';
+  }
+
   window.onload = function() {
+    checkAuthOnLoad();
     solveLec();
     solveP1();
     solveP2();
