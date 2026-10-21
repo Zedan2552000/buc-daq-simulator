@@ -1935,7 +1935,7 @@
     let nameInput = document.getElementById('auth_student_name');
     if (nameInput) nameInput.placeholder = isEn ? 'e.g. Youssef Atef Elshahat' : 'مثال: يوسف عاطف الشحات';
     let pinInput = document.getElementById('auth_admin_pin');
-    if (pinInput) pinInput.placeholder = isEn ? 'Secret PIN (e.g. 2552000)' : 'الرقم السري للمشرف';
+    if (pinInput) pinInput.placeholder = isEn ? '••••••••' : '••••••••';
 
     // Update logged in user badge if active
     if (currentUser) {
@@ -2135,7 +2135,7 @@
         displayNameEn: 'Eng. Moh Zedan (Admin)',
         role: 'admin',
         section: 'Faculty Supervisor',
-        code: 'ADMIN-2552000',
+        code: 'FACULTY-SUPERVISOR',
         loginTime: Date.now()
       };
       finishLogin();
