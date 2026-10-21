@@ -729,9 +729,7 @@
     <div id="admin_form" class="auth-body" style="display:none;">
       <div id="admin_error" class="auth-error"></div>
 
-      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:10px 14px; font-size:0.85rem; color:#1e40af; font-weight:700; margin-bottom:14px;">
-        🛡️ وضع المشرف مخصص للمعيد (م. محمد زيدan) — لا يتطلب إدخال الاسم أو كود الطالب.
-      </div>
+      
 
       <div class="input-group">
         <label>الرقم السري للمشرف (Admin Secret PIN) * :</label>
@@ -2510,57 +2508,74 @@
   function submitStudentAuth() {
     let code = document.getElementById('auth_student_code').value.trim();
     let sec = document.getElementById('auth_student_section').value;
-    let name = document.getElementById('auth_student_name').value.trim();
+    let rawName = document.getElementById('auth_student_name').value.trim();
     let errEl = document.getElementById('student_error');
 
     errEl.style.display = 'none';
 
     if (!code) {
-      showError(errEl, '⚠️ برجاء كتابة كود الطالب (ID)');
+      showError(errEl, '⚠️ برجاء كتابة كود الطالب الجامعي (ID).');
       return;
     }
     if (!sec) {
-      showError(errEl, '⚠️ برجاء اختيار السكشن الدراسي');
+      showError(errEl, '⚠️ برجاء اختيار السكشن الدراسي المسجل به.');
       return;
     }
-    if (!name) {
-      showError(errEl, '⚠️ برجاء كتابة اسمك (بالعربي أو بالإنجليزي)');
+    if (!rawName) {
+      showError(errEl, '⚠️ برجاء كتابة اسمك (ثلاثي على الأقل).');
       return;
     }
 
-    // Lookup in database
+    // Lookup student by code in DB
     let student = STUDENTS_DB.find(s => s.code === code);
     if (!student) {
-      showError(errEl, `❌ كود الطالب (${code}) غير مسجل في كشوفات الكورس! برجاء مراجعة الرقم.`);
+      showError(errEl, `❌ كود الطالب (${code}) غير مسجل في كشوفات الكورس! برجاء التأكد من كتابة الرقم بشكل صحيح.`);
       return;
     }
 
     // Check Section
     if (student.section !== sec) {
-      showError(errEl, `⚠️ هذا الكود مسجل في سكشن (${student.section}) وليس سكشن (${sec})! برجاء اختيار سكشنك الصحيح.`);
+      showError(errEl, `⚠️ كود الطالب مسجل في سكشن (${student.section}) وليس سكشن (${sec})! برجاء اختيار سكشنك الصحيح.`);
       return;
     }
 
-    // Name Verification (Arabic & English Fuzzy/Token check)
-    let inputTokens = name.split(/\s+/).filter(w => w.length > 1);
-    let normInputAr = inputTokens.map(w => normAr(w));
-    let normInputEn = inputTokens.map(w => w.toLowerCase());
+    // Process Name: Join composite prefixes like "عبد", "أبو", "ابو"
+    let cleanInput = rawName
+      .replace(/\b(عبد|أبو|ابو)\s+(\S+)/gi, '$1_$2')
+      .replace(/\b(abd|abdel|abdul|abou|abo)\s+(\S+)/gi, '$1_$2');
 
-    let dbArTokens = student.name_ar.split(/\s+/).map(w => normAr(w));
-    let dbEnTokens = student.name_en.toLowerCase().split(/\s+/);
+    let inputTokens = cleanInput.split(/\s+/).filter(w => w.length > 1);
 
-    // Check if at least the first 2 words match either Arabic or English
-    let matchAr = normInputAr.length > 0 && normInputAr.slice(0, 2).every(t => dbArTokens.includes(t));
-    let matchEn = normInputEn.length > 0 && normInputEn.slice(0, 2).every(t => dbEnTokens.includes(t));
-
-    // Also single word fallback if student writes only first name
-    if (inputTokens.length === 1) {
-      matchAr = dbArTokens.includes(normInputAr[0]);
-      matchEn = dbEnTokens.includes(normInputEn[0]);
+    // Enforce AT LEAST 3 names (ثلاثي على الأقل)
+    if (inputTokens.length < 3) {
+      showError(errEl, `⚠️ يجب كتابة الاسم ثلاثياً على الأقل (3 أسماء)، والاسم المدخل مكون من ${inputTokens.length} فقط.<br>مثال: <strong>يوسف عاطف الشحات</strong>`);
+      return;
     }
 
+    // Normalize input tokens
+    let inAr = inputTokens.map(w => normAr(w.replace('_', ' ')));
+    let inEn = inputTokens.map(w => w.toLowerCase().replace('_', ''));
+
+    // DB student tokens
+    let cleanDbAr = student.name_ar
+      .replace(/\b(عبد|أبو|ابو)\s+(\S+)/gi, '$1_$2');
+    let dbArTokens = cleanDbAr.split(/\s+/).map(w => normAr(w.replace('_', ' ')));
+
+    let cleanDbEn = student.name_en
+      .replace(/\b(abd|abdel|abdul|abou|abo)\s+(\S+)/gi, '$1_$2');
+    let dbEnTokens = cleanDbEn.toLowerCase().split(/\s+/).map(w => w.replace('_', ''));
+
+    // Verify first 3 tokens match the registered student's first 3 names (or all in order)
+    let matchAr = inAr.length >= 3 && inAr.slice(0, 3).every((t, i) => {
+      return (dbArTokens[i] && dbArTokens[i] === t) || dbArTokens.includes(t);
+    });
+
+    let matchEn = inEn.length >= 3 && inEn.slice(0, 3).every((t, i) => {
+      return (dbEnTokens[i] && dbEnTokens[i] === t) || dbEnTokens.includes(t);
+    });
+
     if (!matchAr && !matchEn) {
-      showError(errEl, `❌ الاسم المدخل (${name}) غير متطابق مع صاحب هذا الكود المسجل بالكشوفات:<br><strong>${student.name_ar}</strong> (${student.name_en}).`);
+      showError(errEl, `❌ الاسم الثلاثي المدخل غير مطابق للاسم المسجل لصاحب هذا الكود:<br><strong>${student.name_ar}</strong> (${student.name_en}).<br>يرجى كتابة الاسم الثلاثي الصحيح كما هو مدون بالكشف.`);
       return;
     }
 
@@ -2756,42 +2771,48 @@
   }
 
   function updatePresenceUI() {
-    let userList = Object.values(activeUsersMap);
-    let total = userList.length;
-    let admins = userList.filter(u => u.role === 'admin').length;
-    let students = total - admins;
+    let allUsers = Object.values(activeUsersMap);
+    
+    // GHOST ADMIN MODE: Filter out admins completely! Admins are 100% invisible!
+    let studentList = allUsers.filter(u => u.role !== 'admin');
+    let studentCount = studentList.length;
 
-    // Update Badges
-    document.getElementById('online_count_badge').innerText = total;
-    document.getElementById('stat_total_count').innerText = total;
-    document.getElementById('stat_admin_count').innerText = admins;
-    document.getElementById('stat_student_count').innerText = students;
+    // Update Badges & Counters (shows ONLY student count)
+    document.getElementById('online_count_badge').innerText = studentCount;
+    document.getElementById('stat_total_count').innerText = studentCount;
+    
+    let adminStatEl = document.getElementById('stat_admin_count');
+    if (adminStatEl && adminStatEl.parentElement) {
+      adminStatEl.parentElement.style.display = 'none'; // Completely hide admin stat
+    }
+    document.getElementById('stat_student_count').innerText = studentCount;
 
-    // Update List inside Modal
+    // Update List inside Modal - render ONLY students
     let container = document.getElementById('active_users_list');
     if (!container) return;
     container.innerHTML = '';
 
-    // Sort: Admins first, then students
-    userList.sort((a, b) => (a.role === 'admin' ? -1 : 1));
+    if (studentList.length === 0) {
+      container.innerHTML = '<div style="text-align:center; padding:25px; color:#64748b; font-weight:700; font-size:0.95rem;">لا يوجد طلاب متصلين حالياً بالمنصة</div>';
+      return;
+    }
 
-    userList.forEach(u => {
-      let isAdmin = u.role === 'admin';
+    studentList.forEach(u => {
       let card = document.createElement('div');
-      card.className = `user-card-item ${isAdmin ? 'admin-card' : ''}`;
+      card.className = 'user-card-item';
       card.innerHTML = `
         <div style="display:flex; align-items:center; gap:10px;">
-          <div style="font-size:1.6rem;">${isAdmin ? '👑' : '🎓'}</div>
+          <div style="font-size:1.6rem;">🎓</div>
           <div>
             <div style="font-weight:800; color:#1e293b; font-size:0.95rem;">${u.name}</div>
             <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">
-              ${isAdmin ? '<strong style="color:#d97706;">مشرف الكورس</strong>' : 'كود الطالب: ' + u.code}
+              كود الطالب: <strong style="color:#1e40af;">${u.code}</strong>
             </div>
           </div>
         </div>
         <div style="text-align:left; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="user-badge-role ${isAdmin ? 'role-admin' : 'role-student'}">
-            ${isAdmin ? '👑 مشرف (Admin)' : 'سكشن ' + u.section}
+          <span class="user-badge-role role-student">
+            سكشن ${u.section}
           </span>
           <span style="font-size:0.75rem; color:#15803d; font-weight:700;">
             <span class="pulse-dot" style="margin-left:3px;"></span> متصل الآن
