@@ -771,6 +771,13 @@
 
 <header>
   <div class="header-inner">
+    
+      <!-- Language Switcher Button -->
+      <button id="lang_toggle_btn" onclick="toggleLanguage()" class="btn" style="background:rgba(255,255,255,0.22); border:1.5px solid rgba(255,255,255,0.6); color:white; font-weight:800; border-radius:30px; padding:6px 14px; font-size:0.85rem; cursor:pointer; backdrop-filter:blur(5px); display:flex; align-items:center; gap:6px;">
+        <span style="font-size:1.1rem;">🌐</span>
+        <span id="lang_btn_label">English</span>
+      </button>
+
     <div class="header-titles">
       <h1>منظومة الشرح والمحاكاة التفاعلية — كورس Data Acquisition (Sheet 1)</h1>
       <p>جامعة بدر بالقاهرة (BUC) — كلية الهندسة والتكنولوجيا — قسم هندسة الميكاترونكس وهندسة الطاقة</p>
@@ -2003,16 +2010,27 @@
       let isBest = (c === bestChoice);
       let qStr = (c.q * 1000).toFixed(3) + ' mV';
 
+      let isEn = (currentLang === 'en');
       let tr = document.createElement('tr');
       if (isBest) tr.style.backgroundColor = '#f0fdf4';
+      let clipBadge = c.isClipped 
+        ? (isEn ? '❌ CLIPPED (Rejected)' : '❌ تقطيع مرفوض (Clipped!)')
+        : (isEn ? '✅ SAFE (No Clipping)' : '✅ سليم لا يقطع (Safe)');
+      let verdict = isBest
+        ? (isEn ? '<strong style="color:var(--success);">🏆 Winner Choice</strong>' : '<strong style="color:var(--success);">🏆 الخيار الأفضل (Winner)</strong>')
+        : (c.isClipped 
+            ? (isEn ? '<span style="color:var(--danger); font-weight:bold;">Rejected (Clipping)</span>' : '<span style="color:var(--danger); font-weight:bold;">مرفوض (تقطيع بيانات)</span>')
+            : (isEn ? 'Valid (Lower Res)' : 'مقبول لكن بدقة أقل'));
+      let bName = isEn ? c.name.replace('الكارت الأول', 'Board 1').replace('الكارت الثاني', 'Board 2').replace('الكارت الثالث', 'Board 3').replace('الكارت الرابع', 'Board 4') : c.name;
+
       tr.innerHTML = `
-        <td style="font-weight:bold;">${c.name}</td>
+        <td style="font-weight:bold;">${bName}</td>
         <td>${c.bits}-bit</td>
         <td style="font-family:'Fira Code';">[${c.vmin}V to ${c.vmax}V]</td>
         <td style="font-family:'Fira Code';">${c.span.toFixed(2)} V</td>
-        <td><span class="badge-status ${c.isClipped ? 'badge-danger' : 'badge-success'}">${c.isClipped ? '❌ تقطيع مرفوض (Clipped!)' : '✅ سليم لا يقطع (Safe)'}</span></td>
+        <td><span class="badge-status ${c.isClipped ? 'badge-danger' : 'badge-success'}">${clipBadge}</span></td>
         <td style="font-family:'Fira Code'; font-weight:bold;">${qStr}</td>
-        <td>${isBest ? '<strong style="color:var(--success);">🏆 الخيار الأفضل (Winner)</strong>' : (c.isClipped ? '<span style="color:var(--danger); font-weight:bold;">مرفوض (تقطيع بيانات)</span>' : 'مقبول لكن بدقة أقل')}</td>
+        <td>${verdict}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -2846,7 +2864,271 @@
     document.getElementById('auth_modal').style.display = 'flex';
   }
 
+  
+  // ==================== BILINGUAL TRANSLATION (I18N) ====================
+  let currentLang = localStorage.getItem('buc_daq_lang') || 'ar';
+
+  const I18N = {
+    ar: {
+      langBtn: 'English',
+      univTitle: 'منظومة الشرح والمحاكاة التفاعلية — كورس Data Acquisition (Sheet 1)',
+      univSubtitle: 'جامعة بدر بالقاهرة (BUC) — كلية الهندسة والتكنولوجيا — قسم هندسة الميكاترونكس وهندسة الطاقة',
+      downloadPdf: '📥 تحميل مذكرة الحلول كاملة (PDF)',
+      taName: '👨‍🏫 إعداد وتدريس: م. محمد زيدان (BUC)',
+      onlineNow: 'المتواجدون الآن:',
+      logoutBtn: 'خروج 🚪',
+      
+      // Nav
+      navP1: 'P1: تحويل لعشري/ثنائي',
+      navP2: 'P2: من ثنائي لعشري',
+      navP3: 'P3: الجمع الثنائي',
+      navP4: 'P4: جدول الـ ADC والدقة',
+      navP5: 'P5: الإشارة والـ Clipping',
+      navP6: 'P6: مفاضلة كروت الـ DAQ ⭐',
+      navP7: 'P7: الـ Aliasing و نايكويست ⭐',
+      navLec: '📚 أمثلة المحاضرة (Cimbala)',
+      navLab: 'الأسئلة المعملية (FFT & Motor)',
+      navYt: '📺 مكتبة شروحات اليوتيوب',
+
+      // Modals
+      authTitle: 'منصة Data Acquisition & LabVIEW',
+      authSubtitle: 'بوابة الدخول الذكية للسكشن — إشراف: م. محمد زيدان',
+      tabStudent: '🎓 تسجيل دخول طالب',
+      tabAdmin: '👑 تسجيل دخول المشرف (Admin)',
+      labelId: 'كود الطالب الجامعي (Student Code / ID) * :',
+      labelSection: 'السكشن الدراسي (Section Group) * :',
+      selectSecDefault: '-- اختر السكشن المسجل به --',
+      labelName: 'اسم الطالب (ثلاثي على الأقل بالعربي أو الإنجليزي) * :',
+      phName: 'مثال: يوسف عاطف الشحات أو Youssef Atef Elshahat',
+      nameHint: '💡 اكتب اسمك ثلاثياً على الأقل كما هو مسجل بقائمة السكشن.',
+      btnEnterCourse: '🚀 الدخول إلى منصة الكورس',
+      labelPin: 'الرقم السري للمشرف (Admin Secret PIN) * :',
+      btnAdminLogin: '👑 تسجيل الدخول كمشرف',
+      
+      // Active users modal
+      activeModalTitle: 'المتواجدون الآن في المنصة (Live Active Users)',
+      statTotal: '👥 الطلاب المتصلون الآن:',
+      statusOnline: 'متصل الآن',
+      noStudentsOnline: 'لا يوجد طلاب متصلين حالياً بالمنصة',
+
+      // P6
+      p6Title: '⚖️ المسألة 6: المفاضلة التفاعلية الكاملة لاختيار كارت الـ DAQ الأنسب',
+      p6SigTitle: '🎯 1. مواصفات إشارة الدخل الحقيقية (Signal Input Limits):',
+      p6BoardsTitle: '🎛️ 2. تعديل مواصفات كروت الـ DAQ المنافسة (يمكنك تغيير أي كارت):',
+      p6ResetBtn: '🔄 استعادة قيم شيت 1 الأصلية',
+      p6TableTitle: '📊 3. جدول التقييم والمقارنة الهندسية اللحظي:',
+      thBoard: 'الكارت',
+      thBits: 'البتات',
+      thRange: 'مدى الكارت [Vmin, Vmax]',
+      thSpan: 'المدى الكلي (Span)',
+      thClip: 'فحص التقطيع (Clipping)',
+      thQ: 'خطوة التكميم Q (Resolution)',
+      thVerdict: 'القرار الهندسي النهائي',
+      clippedBadge: '❌ تقطيع مرفوض (Clipped!)',
+      safeBadge: '✅ سليم لا يقطع (Safe)',
+      winnerBadge: '🏆 الخيار الأفضل (Winner)',
+      rejectedData: 'مرفوض (تقطيع بيانات)',
+      validLowerRes: 'مقبول لكن بدقة أقل',
+
+      // P7
+      p7Title: '📉 المسألة 7: محاكي ظاهرة التردد الزائف ومخطط الانطواء وإعادة بناء الموجة (Aliasing & Folding)',
+      p7CasesBtn: '🔄 إعادة تعيين قيم الشيت',
+      thCase: 'الحالة',
+      thSignalF: 'تردد الإشارة f (Hz)',
+      thSampleFs: 'تردد العينات fs (Hz)',
+      thNyqCheck: 'شرط نايكويست (fs ≥ 2f)',
+      thNVal: 'قيمة n = round(f/fs)',
+      thFaVal: 'التردد المقروء fa = |f - n·fs|',
+      thDiagnosis: 'التشخيص الفيزيائي',
+      diagSafe: 'سليم تماماً (No Aliasing)',
+      diagAliased: 'تردد زائف منخفض (Aliased)',
+      diagDc: 'خط مستقيم ثابت (DC Signal)',
+
+      // Lecture
+      lecTitle: '📚 محاكي أمثلة ومسائل المحاضرة الرسمية (Dr. John Cimbala Lecture Examples)',
+      lecEx1: 'مثال 1: f=10Hz, fs=15Hz (معتدل)',
+      lecEx2: 'مثال 2: f=10Hz, fs=9Hz (مقارنة 11Hz)',
+      lecEx3: 'مثال 3: f=10Hz, fs=6Hz (فخ الامتحان! ⚠️)',
+      lecEx4: 'مثال 4: f=10Hz, fs=4Hz (تمرين Slide 16)'
+    },
+    en: {
+      langBtn: 'العربية',
+      univTitle: 'Interactive Simulation & Teaching Platform — Data Acquisition (Sheet 1)',
+      univSubtitle: 'Badr University in Cairo (BUC) — Faculty of Engineering — Mechatronics & Energy Engineering Dept.',
+      downloadPdf: '📥 Download Complete Solutions Guide (PDF)',
+      taName: '👨‍🏫 Prepared & Taught by: Eng. Moh Zedan (BUC)',
+      onlineNow: 'Online Now:',
+      logoutBtn: 'Logout 🚪',
+
+      // Nav
+      navP1: 'P1: Dec to Binary',
+      navP2: 'P2: Bin to Decimal',
+      navP3: 'P3: Binary Addition',
+      navP4: 'P4: ADC Specs & Q',
+      navP5: 'P5: Signal & Clipping',
+      navP6: 'P6: DAQ Selection ⭐',
+      navP7: 'P7: Aliasing & Nyquist ⭐',
+      navLec: '📚 Lecture Examples (Cimbala)',
+      navLab: 'Lab Questions (FFT & RPM)',
+      navYt: '📺 Video Lectures Library',
+
+      // Modals
+      authTitle: 'Data Acquisition & LabVIEW Platform',
+      authSubtitle: 'Section Smart Gateway — Supervised by: Eng. Moh Zedan',
+      tabStudent: '🎓 Student Login',
+      tabAdmin: '👑 Admin Login',
+      labelId: 'University Student Code (ID) * :',
+      labelSection: 'Section Group * :',
+      selectSecDefault: '-- Select Your Registered Section --',
+      labelName: 'Student Name (At least 3 names in Arabic or English) * :',
+      phName: 'e.g.: Youssef Atef Elshahat or يوسف عاطف الشحات',
+      nameHint: '💡 Enter at least 3 names matching the official section roster.',
+      btnEnterCourse: '🚀 Access Course Platform',
+      labelPin: 'Admin Secret PIN * :',
+      btnAdminLogin: '👑 Login as Admin',
+
+      // Active users modal
+      activeModalTitle: 'Live Active Users in Platform',
+      statTotal: '👥 Active Students Now:',
+      statusOnline: 'Online Now',
+      noStudentsOnline: 'No students currently online',
+
+      // P6
+      p6Title: '⚖️ Problem 6: Full Interactive DAQ Board Selection Optimizer',
+      p6SigTitle: '🎯 1. Actual Dynamic Input Signal Specifications:',
+      p6BoardsTitle: '🎛️ 2. Candidate DAQ Boards Configuration (Customize Any Board):',
+      p6ResetBtn: '🔄 Reset to Sheet 1 Default Values',
+      p6TableTitle: '📊 3. Live Engineering Evaluation & Comparison Matrix:',
+      thBoard: 'Board',
+      thBits: 'Bits',
+      thRange: 'Board Range [Vmin, Vmax]',
+      thSpan: 'Full Span',
+      thClip: 'Clipping Check',
+      thQ: 'Step Size Q (Resolution)',
+      thVerdict: 'Engineering Verdict',
+      clippedBadge: '❌ CLIPPED (Rejected)',
+      safeBadge: '✅ SAFE (No Clipping)',
+      winnerBadge: '🏆 Recommended Choice (Winner)',
+      rejectedData: 'Rejected (Severe Clipping)',
+      validLowerRes: 'Valid but Lower Resolution',
+
+      // P7
+      p7Title: '📉 Problem 7: Aliasing, Folding Diagram & Waveform Reconstruction Simulator',
+      p7CasesBtn: '🔄 Reset Sheet 1 Cases',
+      thCase: 'Case',
+      thSignalF: 'Signal Freq f (Hz)',
+      thSampleFs: 'Sampling Freq fs (Hz)',
+      thNyqCheck: 'Nyquist Check (fs ≥ 2f)',
+      thNVal: 'n = round(f/fs)',
+      thFaVal: 'Perceived fa = |f - n·fs|',
+      thDiagnosis: 'Physical Diagnosis',
+      diagSafe: 'Perfect (No Aliasing)',
+      diagAliased: 'Aliased (Perceived Lower Freq)',
+      diagDc: 'Flat Constant (DC Signal)',
+
+      // Lecture
+      lecTitle: '📚 Official Lecture Problems & Pitfalls Simulator (Dr. John Cimbala Slides)',
+      lecEx1: 'Example 1: f=10Hz, fs=15Hz (Moderate)',
+      lecEx2: 'Example 2: f=10Hz, fs=9Hz (vs 11Hz)',
+      lecEx3: 'Example 3: f=10Hz, fs=6Hz (Major Exam Trap! ⚠️)',
+      lecEx4: 'Example 4: f=10Hz, fs=4Hz (Slide 16 Exercise)'
+    }
+  };
+
+  function toggleLanguage() {
+    currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+    localStorage.setItem('buc_daq_lang', currentLang);
+    applyLanguage(currentLang);
+  }
+
+  function applyLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+    let strings = I18N[lang] || I18N.ar;
+
+    // Toggle button label
+    let btnLabel = document.getElementById('lang_btn_label');
+    if (btnLabel) btnLabel.innerText = strings.langBtn;
+
+    // Header
+    let h1 = document.querySelector('.header-titles h1');
+    if (h1) h1.innerText = strings.univTitle;
+    let hp = document.querySelector('.header-titles p');
+    if (hp) hp.innerText = strings.univSubtitle;
+    let pdfA = document.querySelector('a[href*="Sheet1_Master_Tutorial_Arabic.pdf"]');
+    if (pdfA) pdfA.innerHTML = strings.downloadPdf;
+    let taB = document.querySelector('.ta-badge:last-of-type');
+    if (taB) taB.innerHTML = strings.taName;
+
+    // Presence Badge
+    let pBtn = document.getElementById('presence_btn');
+    if (pBtn) {
+      let cnt = document.getElementById('online_count_badge').innerText;
+      pBtn.innerHTML = `<span class="pulse-dot"></span> <span>${strings.onlineNow}</span> <strong id="online_count_badge" style="font-family:'Fira Code'; font-size:1rem;">${cnt}</strong>`;
+    }
+
+    // Nav Buttons
+    let navBtns = document.querySelectorAll('.nav-btn');
+    if (navBtns.length >= 9) {
+      navBtns[0].innerText = strings.navP1;
+      navBtns[1].innerText = strings.navP2;
+      navBtns[2].innerText = strings.navP3;
+      navBtns[3].innerText = strings.navP4;
+      navBtns[4].innerText = strings.navP5;
+      navBtns[5].innerText = strings.navP6;
+      navBtns[6].innerText = strings.navP7;
+      navBtns[7].innerText = strings.navLec;
+      navBtns[8].innerText = strings.navLab;
+    }
+
+    // Modal texts
+    let authH2 = document.querySelector('.auth-header h2');
+    if (authH2) authH2.innerText = strings.authTitle;
+    let authP = document.querySelector('.auth-header p');
+    if (authP) authP.innerText = strings.authSubtitle;
+    let tStd = document.getElementById('tab_student_btn');
+    if (tStd) tStd.innerText = strings.tabStudent;
+    let tAdm = document.getElementById('tab_admin_btn');
+    if (tAdm) tAdm.innerText = strings.tabAdmin;
+
+    // Form labels
+    let stdLabels = document.querySelectorAll('#student_form .input-group label');
+    if (stdLabels.length >= 3) {
+      stdLabels[0].innerText = strings.labelId;
+      stdLabels[1].innerText = strings.labelSection;
+      stdLabels[2].innerText = strings.labelName;
+    }
+    let secSelect = document.getElementById('auth_student_section');
+    if (secSelect && secSelect.options[0]) secSelect.options[0].text = strings.selectSecDefault;
+    let nameIn = document.getElementById('auth_student_name');
+    if (nameIn) nameIn.placeholder = strings.phName;
+    let enterBtn = document.querySelector('#student_form button.btn');
+    if (enterBtn) enterBtn.innerText = strings.btnEnterCourse;
+
+    let pinLabel = document.querySelector('#admin_form .input-group label');
+    if (pinLabel) pinLabel.innerText = strings.labelPin;
+    let admBtn = document.querySelector('#admin_form button.btn');
+    if (admBtn) admBtn.innerText = strings.btnAdminLogin;
+
+    // Active Users Modal
+    let modalH3 = document.querySelector('.users-modal-header h3');
+    if (modalH3) modalH3.innerText = strings.activeModalTitle;
+    let statTot = document.getElementById('stat_total_count');
+    if (statTot && statTot.parentElement) {
+      statTot.parentElement.innerHTML = `👥 ${strings.statTotal} <strong id="stat_total_count" style="color:#1e40af;">${statTot.innerText}</strong>`;
+    }
+
+    // Re-solve active interactive blocks to refresh tables and steps in selected language
+    if (typeof solveP6 === 'function') solveP6();
+    if (typeof solveP7 === 'function') solveP7();
+    if (typeof solveP7Cases === 'function') solveP7Cases();
+    if (typeof solveLec === 'function') solveLec();
+    if (typeof updatePresenceUI === 'function') updatePresenceUI();
+  }
+
   window.onload = function() {
+    applyLanguage(currentLang);
     checkAuthOnLoad();
     solveLec();
     solveP1();
