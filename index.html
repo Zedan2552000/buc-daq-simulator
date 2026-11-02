@@ -1115,6 +1115,14 @@ window.addEventListener('DOMContentLoaded', () => {
       <span class="lang-ar">📝 نموذج إجابة Quiz 1</span>
       <span class="lang-en">📝 Quiz 1 Model Answer</span>
     </button>
+    <button class="nav-btn" style="background:#ea580c; color:white; border-color:#ea580c; font-weight:800;" onclick="scrollToSection('labview_egyptian_guide')">
+      <span class="lang-ar">🔬 كورس LabVIEW بالمصري ⭐</span>
+      <span class="lang-en">🔬 LabVIEW Egyptian Guide ⭐</span>
+    </button>
+    <button class="nav-btn" style="background:#8b5cf6; color:white; border-color:#8b5cf6; font-weight:800;" onclick="scrollToSection('casio_calculator_guide')">
+      <span class="lang-ar">🧮 أسرار الآلة الحاسبة Casio ⚡</span>
+      <span class="lang-en">🧮 Casio Calculator Shortcuts ⚡</span>
+    </button>
     <button class="nav-btn" style="background:#0284c7; color:white; border-color:#0284c7; font-weight:800;" onclick="scrollToSection('sheet1_theory_section')">
       <span class="lang-ar">🏛️ نظرية ومعمارية شيت 1</span>
       <span class="lang-en">🏛️ Sheet 1 Architecture</span>
@@ -1154,9 +1162,6 @@ window.addEventListener('DOMContentLoaded', () => {
     <button class="nav-btn" style="background:#0284c7; color:white; border-color:#0284c7; font-weight:800;" onclick="scrollToSection('fourier_series_section')">
       <span class="lang-ar">🎼 متسلسلات فورييه ونغمات DTMF (Lec 3)</span>
       <span class="lang-en">🎼 Fourier Series & DTMF (Lec 3)</span>
-    </button>
-      <span class="lang-ar">📚 أمثلة المحاضرة (Cimbala)</span>
-      <span class="lang-en">📚 Lecture Examples (Cimbala)</span>
     </button>
     <button class="nav-btn" onclick="scrollToSection('lab')">
       <span class="lang-ar">الأسئلة المعملية (FFT & Motor)</span>
@@ -1485,6 +1490,296 @@ window.addEventListener('DOMContentLoaded', () => {
   </div>
 </section>
 
+<!-- ========================================================================= -->
+<!-- SECTION: LABVIEW EGYPTIAN MASTER GUIDE (شرح عملي وهندسي بالعامية المصرية) -->
+<!-- ========================================================================= -->
+<section id="labview_egyptian_guide" class="card" style="border: 2px solid #ea580c; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.15);">
+  <div style="background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%); color: #ffffff; padding: 14px 20px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+    <div>
+      <h2 style="margin: 0; font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; gap: 8px;">
+        <span>🔬</span>
+        <span class="lang-ar">دليل LabVIEW الشامل بالعامية المصرية الهندسية (من الصفر لامتحان المعمل)</span>
+        <span class="lang-en">Comprehensive LabVIEW Engineering Guide (Hands-on Practical Mastery)</span>
+      </h2>
+      <p style="margin: 4px 0 0 0; font-size: 0.88rem; opacity: 0.95;">
+        <span class="lang-ar">شرح تفصيلي مبسط لطلبة ميكاترونكس وهندسة طاقة BUC — إعداد: م. محمد زيدان</span>
+        <span class="lang-en">Step-by-step practical manual for BUC Engineering Students — Eng. Moh Zedan</span>
+      </p>
+    </div>
+    <span class="badge" style="background:#ffffff; color:#c2410c; font-weight:900; font-size:0.85rem; padding:6px 12px;">LabVIEW Core Directives</span>
+  </div>
+
+  <div style="padding: 20px;">
+    <!-- Part 1: Philosophy -->
+    <div style="background:#fff7ed; border-left:4px solid #ea580c; padding:14px; border-radius:6px; margin-bottom:18px;">
+      <h3 style="margin:0 0 8px 0; color:#9a3412; font-size:1.1rem;">💡 يعني إيه أصلاً LabVIEW؟ وليه بندرسها؟</h3>
+      <p style="font-size:0.93rem; line-height:1.7; margin:0; color:#334155;">
+        الـ <strong>LabVIEW</strong> اختصار لـ <em>(Laboratory Virtual Instrument Engineering Workbench)</em>. دي لغة برمجة <strong>رسومية (Graphical G-Language)</strong>، يعني مش بنكتب فيها سطور كود (Syntax) زي C++ أو Python، لكن بنبني الكود على شكل بلوكات وأسلاك.
+        <br>
+        <strong>القاعدة الذهبية (Dataflow Programming):</strong> أي بلوك أو فانكشن مش هيبدأ يشتغل إلا لما <strong>كل المدخلات اللي داخلة له توصل بالكامل</strong>! البيانات بتمشي في الأسلاك من الشمال لليمين زي المية في المواسير.
+      </p>
+    </div>
+
+    <!-- Part 2: Two Windows -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:18px;">
+      <!-- Front Panel -->
+      <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:8px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #e2e8f0; padding-bottom:8px; margin-bottom:10px;">
+          <h4 style="margin:0; color:#0369a1; font-size:1.05rem;">1️⃣ الـ Front Panel (وش الجهاز / واجهة المستخدم)</h4>
+          <span class="badge" style="background:#0284c7; color:white;">UI Window</span>
+        </div>
+        <p style="font-size:0.9rem; line-height:1.6; color:#475569; margin-bottom:10px;">
+          دي الشاشة الرمادية اللي المستخدم أو الدكتور في المعمل بيشوفها، وفيها نوعين أساسيين من العناصر:
+        </p>
+        <ul style="margin:0 0 0 18px; font-size:0.88rem; line-height:1.6; color:#1e293b;">
+          <li><strong>الـ Controls (المدخلات 🎛️):</strong> المفاتيح، السلايدرات، خانات كتابة الأرقام. دي الحاجات اللي بتدخل داتا للبرنامج. بتميزها في الـ Block Diagram إن لها <em>سهم خارج من اليمين</em>.</li>
+          <li><strong>الـ Indicators (المخرجات 📊):</strong> الجرافات، العدادات، لمبات الـ LED، خانات عرض النواتج. دي الحاجات اللي بتعرضلك النتيجة. بتميزها إن لها <em>سهم داخل من الشمال</em>.</li>
+        </ul>
+      </div>
+
+      <!-- Block Diagram -->
+      <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:8px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #e2e8f0; padding-bottom:8px; margin-bottom:10px;">
+          <h4 style="margin:0; color:#b45309; font-size:1.05rem;">2️⃣ الـ Block Diagram (ضهر الجهاز / المحرك والأسلاك)</h4>
+          <span class="badge" style="background:#d97706; color:white;">Wiring & Logic</span>
+        </div>
+        <p style="font-size:0.9rem; line-height:1.6; color:#475569; margin-bottom:10px;">
+          الشاشة البيضاء اللي بنبني فيها المخ واللوجيك بتاع المنظومة الهندسية:
+        </p>
+        <ul style="margin:0 0 0 18px; font-size:0.88rem; line-height:1.6; color:#1e293b;">
+          <li><strong>اختصار التبديل السحري:</strong> اضغط <code>Ctrl + E</code> للتبديل الفوري بين الـ Front Panel والـ Block Diagram!</li>
+          <li><strong>الـ Functions Palette:</strong> كليك يمين في أي مكان فاضي في الـ Block Diagram عشان تفتح قائمة الفانكشنز (الرياضيات، اللوبات، المقارنات).</li>
+          <li><strong>مسح الأسلاك الميتة:</strong> لو عندك أسلاك مقطوعة عاملة سهم مكسور، اضغط <code>Ctrl + B</code> هيمسح كل الأسلاك المكسورة في ثانية واحدة!</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Part 3: Wire Colors Cheat Sheet -->
+    <div style="background:#ffffff; border:1.5px solid #e2e8f0; border-radius:8px; padding:16px; margin-bottom:18px;">
+      <h4 style="margin:0 0 12px 0; color:#1e3a8a; font-size:1.05rem;">🎨 دلالات ألوان الأسلاك والبيانات في LabVIEW (سؤال شفوي ومعمل مضمون):</h4>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+        <div style="border-left:4px solid #f97316; background:#fff7ed; padding:10px; border-radius:4px;">
+          <strong style="color:#c2410c;">🟠 برتقالي (Orange Wire):</strong>
+          <div style="font-size:0.85rem; color:#475569; margin-top:3px;"><strong>Floating-Point (DBL):</strong> أرقام عشرية وكسور (زي الجهد، المقاومة، التردد، المساحة).</div>
+        </div>
+        <div style="border-left:4px solid #2563eb; background:#eff6ff; padding:10px; border-radius:4px;">
+          <strong style="color:#1d4ed8;">🔵 أزرق (Blue Wire):</strong>
+          <div style="font-size:0.85rem; color:#475569; margin-top:3px;"><strong>Integer (I32 / I16):</strong> أرقام صحيحة بدون كسور (زي عدد البتات N، رقم اللفة i).</div>
+        </div>
+        <div style="border-left:4px solid #16a34a; background:#f0fdf4; padding:10px; border-radius:4px;">
+          <strong style="color:#15803d;">🟢 أخضر (Green Wire):</strong>
+          <div style="font-size:0.85rem; color:#475569; margin-top:3px;"><strong>Boolean (T/F):</strong> إشارات منطقية (True / False)، بتوصل بمفاتيح التشغيل والـ LEDs.</div>
+        </div>
+        <div style="border-left:4px solid #ec4899; background:#fdf2f8; padding:10px; border-radius:4px;">
+          <strong style="color:#be185d;">🟣 وردي / بنفسجي (Pink Wire):</strong>
+          <div style="font-size:0.85rem; color:#475569; margin-top:3px;"><strong>String:</strong> نصوص ورسائل وكتابة توضيحية.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 4: Loops & SubVIs -->
+    <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:8px; padding:16px; margin-bottom:18px;">
+      <h4 style="margin:0 0 12px 0; color:#1e293b; font-size:1.05rem;">🔄 اللوبات والنظم الفرعية (Loops, While, For, SubVIs):</h4>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+        <!-- While Loop -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+          <h5 style="margin:0 0 6px 0; color:#b91c1c; font-size:0.95rem;">🔴 الـ While Loop (التكرار المشروط المستمر):</h5>
+          <p style="font-size:0.85rem; line-height:1.5; color:#475569; margin:0 0 8px 0;">
+            بتفضل شغالة إلى ما لا نهاية طول ما الشرط متحقق، وبتتوقف لما ندوس زرار Stop أو يتحقق شرط معين.
+          </p>
+          <ul style="margin:0 0 0 16px; font-size:0.82rem; line-height:1.5; color:#1e293b;">
+            <li><strong>عداد اللفات <code>[ i ]</code>:</strong> بيبدأ من 0 ويزيد 1 في كل لفة.</li>
+            <li><strong>شرط التوقف <code>[ 🔴 ]</code>:</strong> لازم نوصله بـ Stop Button في الـ Front Panel.</li>
+            <li><strong>مهم جداً (Wait ms):</strong> لازم تحط جواها فانكشن <code>Wait (ms)</code> من باليت التوقيت (Timing)، وإلا اللوب هتسحب 100% من قدرة المعالج والجهاز هيهنج!</li>
+          </ul>
+        </div>
+
+        <!-- For Loop -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+          <h5 style="margin:0 0 6px 0; color:#2563eb; font-size:0.95rem;">🔵 الـ For Loop (التكرار بعدد لفات محدد):</h5>
+          <p style="font-size:0.85rem; line-height:1.5; color:#475569; margin:0 0 8px 0;">
+            بتستخدم لما نكون عارفين عدد المرات مقدماً (زي قراءة 256 عينة في الـ FFT أو تكرار حساب 50 مرة).
+          </p>
+          <ul style="margin:0 0 0 16px; font-size:0.82rem; line-height:1.5; color:#1e293b;">
+            <li><strong>مدخل عدد اللفات <code>[ N ]</code>:</strong> بنوصل بيه رقم صحيح يحدد هتلف كام مرة بالضبط.</li>
+            <li><strong>مسجلات الإزاحة (Shift Registers):</strong> كليك يمين على جدار اللوب واختار <code>Add Shift Register</code> لتخزين قيمة اللفة السابقة واستخدامها في اللفة الحالية (زي الجمع التراكمي أو التنعيم).</li>
+          </ul>
+        </div>
+
+        <!-- SubVI -->
+        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+          <h5 style="margin:0 0 6px 0; color:#15803d; font-size:0.95rem;">🧩 الـ SubVI (صناعة البلوكات الفرعية / Subsystems):</h5>
+          <p style="font-size:0.85rem; line-height:1.5; color:#475569; margin:0 0 8px 0;">
+            إزاي تحول كود لحاجة تشبه الـ Function أو البلوك الجاهز في 4 خطوات:
+          </p>
+          <ol style="margin:0 0 0 16px; font-size:0.82rem; line-height:1.5; color:#1e293b;">
+            <li><strong>تصميم الواجهة:</strong> ضع الـ Controls والـ Indicators المطلوبة.</li>
+            <li><strong>رسم الأيقونة (Icon):</strong> دبل كليك على المربع أعلى يمين الشاشة وارسم أيقونة واكتب اسم مختصر (مثلاً <code>CALC</code>).</li>
+            <li><strong>ربط الـ Connector Pane:</strong> كليك يمين على المربع &rarr; <code>Show Connector</code> &rarr; كليك على المربع الطرفي ثم كليك على الـ Control المقابل له في الـ Front Panel.</li>
+            <li><strong>الحفظ:</strong> احفظ الملف بامتداد <code>.vi</code> واسحبه جوه أي برنامج كبير كبلوك جاهز!</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 5: Exam Problem 4 Walkthrough -->
+    <div style="background:#fffbeb; border:1.5px solid #fde68a; border-radius:8px; padding:16px;">
+      <h4 style="margin:0 0 8px 0; color:#92400e; font-size:1.05rem;">📐 خطوات حل مسألة الامتحان خطوة بخطوة (Problem 4: Area of Triangle):</h4>
+      <p style="font-size:0.9rem; line-height:1.6; color:#78350f; margin-bottom:10px;">
+        <strong>المطلوب:</strong> حساب مساحة المثلث <code>Area = (Base &times; Height) / 2</code> وتوصيلها في الـ Block Diagram:
+      </p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; font-size:0.86rem;">
+        <div style="background:#ffffff; padding:10px; border-radius:4px; border:1px solid #fef08a;">
+          <strong>الخطوة 1 (Front Panel):</strong>
+          <br>• كليك يمين &rarr; <code>Numeric</code> &rarr; اختر <code>Numeric Control</code> وسميه <code>Base (cm)</code>.
+          <br>• كليك يمين &rarr; <code>Numeric Control</code> وسميه <code>Height (cm)</code>.
+          <br>• كليك يمين &rarr; اختر <code>Numeric Indicator</code> وسميه <code>Area (cm^2)</code>.
+        </div>
+        <div style="background:#ffffff; padding:10px; border-radius:4px; border:1px solid #fef08a;">
+          <strong>الخطوة 2 (Block Diagram):</strong>
+          <br>• كليك يمين &rarr; <code>Numeric</code> &rarr; اختر فانكشن الضرب <code>[ &times; ] Multiply</code>.
+          <br>• وصل سلك من <code>Base (cm)</code> للمدخل العلوي $x$.
+          <br>• وصل سلك من <code>Height (cm)</code> للمدخل السفلي $y$.
+        </div>
+        <div style="background:#ffffff; padding:10px; border-radius:4px; border:1px solid #fef08a;">
+          <strong>الخطوة 3 (القسمة على 2):</strong>
+          <br>• كليك يمين &rarr; <code>Numeric</code> &rarr; اختر فانكشن القسمة <code>[ &divide; ] Divide</code>.
+          <br>• وصل ناتج الضرب في مدخل البسط العلوي $x$.
+          <br>• كليك يمين على مدخل المقام السفلي $y$ &rarr; <code>Create</code> &rarr; <code>Constant</code> واكتب <strong>2</strong>.
+          <br>• وصل مخرج القسمة بـ <code>Area (cm^2)</code>.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- SECTION: CASIO CALCULATOR EXAM SHORTCUTS & STEP-BY-STEP (أسرار الآلة الحاسبة) -->
+<!-- ========================================================================= -->
+<section id="casio_calculator_guide" class="card" style="border: 2px solid #8b5cf6; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.15);">
+  <div style="background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%); color: #ffffff; padding: 14px 20px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+    <div>
+      <h2 style="margin: 0; font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; gap: 8px;">
+        <span>🧮</span>
+        <span class="lang-ar">أسرار وحيل الآلة الحاسبة Casio لحل شيتات وكويزات DAQ في ثوانٍ</span>
+        <span class="lang-en">Casio Calculator Exam Secrets & Speed Shortcuts (fx-991ARX & ES Plus)</span>
+      </h2>
+      <p style="margin: 4px 0 0 0; font-size: 0.88rem; opacity: 0.95;">
+        <span class="lang-ar">طريقة استخدام الآلة في الامتحان لحل التحويلات الثنائية والـ ADC وقانون سيمبالا بدون أخطاء حسابية</span>
+        <span class="lang-en">Official Exam Keystroke Guide for fx-991ARX / fx-991ES Plus — Eng. Moh Zedan</span>
+      </p>
+    </div>
+    <span class="badge" style="background:#ffffff; color:#6d28d9; font-weight:900; font-size:0.85rem; padding:6px 12px;">Casio fx-991 Hacks</span>
+  </div>
+
+  <div style="padding: 20px;">
+    <!-- Cheat 1: BASE-N Mode -->
+    <div style="background:#f5f3ff; border:1.5px solid #ddd6fe; border-radius:8px; padding:16px; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #c4b5fd; padding-bottom:8px; margin-bottom:12px;">
+        <h3 style="margin:0; color:#5b21b6; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+          <span>⚡</span>
+          <span class="lang-ar">الحيلة الأولى: نظام BASE-N (التحويلات والجمع الثنائي في ثانية واحدة)</span>
+          <span class="lang-en">Trick 1: BASE-N Mode (Instant Binary/Decimal Conversions & Addition)</span>
+        </h3>
+        <span class="badge" style="background:#7c3aed; color:white;">MODE 4</span>
+      </div>
+
+      <p style="font-size:0.92rem; line-height:1.6; color:#334155; margin-bottom:12px;">
+        بدل ما تقعد تقسم على 2 وتعمل جدول وتضيع وقت في أول مسألة في الشيت أو الكويز، الآلة بتعملها بضغطة زرار واحدة!
+      </p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px; font-size:0.88rem;">
+        <!-- Setup -->
+        <div style="background:#ffffff; padding:12px; border-radius:6px; border:1px solid #ddd6fe;">
+          <strong style="color:#6d28d9;">1. الدخول على النظام:</strong>
+          <br>• على <strong>fx-991ARX (ClassWiz)</strong>: اضغط <code>[MENU]</code> ثم رقم <code>[4]</code> (BASE-N).
+          <br>• على <strong>fx-991ES Plus</strong>: اضغط <code>[MODE]</code> ثم رقم <code>[4]</code> (BASE-N).
+          <br>• <strong>الأزرار الأربعة السحرية:</strong>
+          <br>&nbsp;&nbsp;- زر <code>[DEC]</code>: العشري (فوقه علامة $x^2$).
+          <br>&nbsp;&nbsp;- زر <code>[BIN]</code>: الثنائي (فوقه علامة $\log$).
+          <br>&nbsp;&nbsp;- زر <code>[HEX]</code>: السداسي عشري (فوقه علامة $x^\land$).
+        </div>
+
+        <!-- Dec to Bin -->
+        <div style="background:#ffffff; padding:12px; border-radius:6px; border:1px solid #ddd6fe;">
+          <strong style="color:#6d28d9;">2. تحويل من عشري لثنائي (مثلاً 23):</strong>
+          <br>• تأكد إن الشاشة مكتوب فيها <code>Dec</code> (لو مش مكتوبة اضغط زر <code>[DEC]</code>).
+          <br>• اكتب <code>23</code> ثم اضغط <code>[ = ]</code>.
+          <br>• اضغط زر <code>[BIN]</code> فوراً!
+          <br>• الشاشة هتعرضلك: <code>...00010111</code> يعني الناتج <strong>10111₂</strong> في ثانية واحدة!
+        </div>
+
+        <!-- Bin to Dec -->
+        <div style="background:#ffffff; padding:12px; border-radius:6px; border:1px solid #ddd6fe;">
+          <strong style="color:#6d28d9;">3. تحويل من ثنائي لعشري (مثلاً 1101):</strong>
+          <br>• اضغط زر <code>[BIN]</code> عشان الشاشة تكتب <code>Bin</code>.
+          <br>• اكتب <code>1101</code> ثم اضغط <code>[ = ]</code>.
+          <br>• اضغط زر <code>[DEC]</code> &rarr; الشاشة هتكتب <strong>13</strong> فوراً!
+        </div>
+
+        <!-- Binary Addition -->
+        <div style="background:#ffffff; padding:12px; border-radius:6px; border:1px solid #ddd6fe;">
+          <strong style="color:#6d28d9;">4. الجمع الثنائي المباشر (P3):</strong>
+          <br>• في وضع <code>BIN</code>، اكتب مباشرة:
+          <br><code>1011 + 1101</code> ثم اضغط <code>[ = ]</code>.
+          <br>• الآلة هتطلعلك الناتج الثنائي: <strong>11000₂</strong> بدون أي أخطاء في الـ Carry!
+        </div>
+      </div>
+    </div>
+
+    <!-- Cheat 2: ADC Memory Storage (STO) -->
+    <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:8px; padding:16px; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #86efac; padding-bottom:8px; margin-bottom:12px;">
+        <h3 style="margin:0; color:#166534; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+          <span>💾</span>
+          <span class="lang-ar">الحيلة الثانية: سرعة حل جدول الـ ADC وتخزين الدقة Q بالـ STO</span>
+          <span class="lang-en">Trick 2: Rapid ADC Quantization using Calculator Memory (STO &rarr; A)</span>
+        </h3>
+        <span class="badge" style="background:#16a34a; color:white;">Memory STO</span>
+      </div>
+
+      <p style="font-size:0.92rem; line-height:1.6; color:#334155; margin-bottom:10px;">
+        في مسألة الـ 5-bit ADC في الكويز، الدقة $Q = 0.15625	ext{ V}$. بدل ما تكتب الرقم العشري الطويل ده 3 مرات وتغلط:
+      </p>
+
+      <ol style="margin:0 0 0 20px; font-size:0.88rem; line-height:1.6; color:#14532d;">
+        <li><strong>احسب وخزن الدقة Q في المتغير A:</strong> اكتب <code>5 ÷ 32</code> واضغط <code>[ = ]</code>، بعدها اضغط <code>[STO]</code> ثم زر <code>[A]</code> (زر السالب <code>(-)</code>). كده القيمة 0.15625 اتخزنت في الذاكرة باسم A.</li>
+        <li><strong>لحساب أي جهد في الجدول:</strong>
+          <br>• اكتب في الآلة: <code>(1.15 + 2.5) ÷ A</code> واضغط <code>[ = ]</code> &rarr; الناتج <code>23.36</code> &rarr; قربه لـ <strong>23</strong>.
+          <br>• اضغط سهم شمال، غير الـ 1.15 وخليها <code>2.30</code> واضغط <code>[ = ]</code> &rarr; الناتج <code>30.72</code> &rarr; قربه لـ <strong>31</strong>.
+          <br>• <strong>وفّر 5 دقائق كاملة في الامتحان وتجنب أخطاء النقل بالمللي!</strong>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Cheat 3: Cimbala Abs Shortcut -->
+    <div style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:8px; padding:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #93c5fd; padding-bottom:8px; margin-bottom:12px;">
+        <h3 style="margin:0; color:#1e40af; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+          <span>🎯</span>
+          <span class="lang-ar">الحيلة الثالثة: حساب تردد الـ Aliasing بقانون سيمبالا الشامل بزر الـ Abs</span>
+          <span class="lang-en">Trick 3: One-Step Cimbala Aliasing Calculation using Abs Key</span>
+        </h3>
+        <span class="badge" style="background:#2563eb; color:white;">Abs Function</span>
+      </div>
+
+      <p style="font-size:0.92rem; line-height:1.6; color:#334155; margin-bottom:10px;">
+        القانون المعتمد في المحاضرة: <code>f<sub>a</sub> = | f - n &middot; f<sub>s</sub> |</code> حيث <code>n = round(f / f<sub>s</sub>)</code>.
+      </p>
+
+      <div style="background:#ffffff; padding:12px; border-radius:6px; border:1px solid #bfdbfe; font-size:0.88rem; line-height:1.6; color:#1e3a8a;">
+        <strong>مثال مسألة المحاضرة الشهيرة ($f = 10	ext{ Hz}, f_s = 6	ext{ Hz}$):</strong>
+        <br>1. اقسم الترددات بالآلة: <code>10 ÷ 6</code> واضغط <code>[ = ]</code> ثم <code>[S<=>D]</code> &rarr; هتطلع <code>1.666...</code> &rarr; يبقى التقريب لأقرب رقم صحيح هو <strong>n = 2</strong>.
+        <br>2. اكتب القيمة المطلقة مباشرة:
+        <br>&nbsp;&nbsp;• على <strong>fx-991ARX</strong>: اضغط زر <code>[Abs]</code> (فوق زر $x$).
+        <br>&nbsp;&nbsp;• على <strong>fx-991ES Plus</strong>: اضغط <code>[SHIFT]</code> ثم زر <code>[hyp]</code> (Abs).
+        <br>3. اكتب جوه القوس: <code>10 - (6 &times; 2)</code> واضغط <code>[ = ]</code> &rarr; الآلة هتطلعلك <strong>2 Hz</strong> فوراً وبدون ما تحتاج ترسم الـ Folding Diagram لو وقت الامتحان ضيق!
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <section id="p1" class="tool-card">
     <div class="tool-header">
       <div class="tool-title">
@@ -1495,6 +1790,14 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="theory-box">
+    <div style="background:#f5f3ff; border:1px dashed #8b5cf6; padding:8px 12px; border-radius:6px; margin:8px 0; font-size:0.85rem; color:#5b21b6; display:flex; align-items:center; gap:8px;">
+      <span style="font-size:1.1rem;">🧮</span>
+      <div>
+        <strong>خطوات حل المسألة 1 على آلة Casio (في ثانيتين):</strong>
+        اضغط <code>[MENU/MODE]</code> &rarr; <code>[4: BASE-N]</code> &rarr; اكتب الرقم العشري واضغط <code>[ = ]</code> &rarr; اضغط زر <code>[BIN]</code> تظهر النتيجة بالثنائي فوراً!
+      </div>
+    </div>
+
       <h4 class="lang-ar">💡 دليل المعيد للشرح في السكشن:</h4>
       <h4 class="lang-en">💡 Instructor Teaching Guide:</h4>
       <div class="lang-ar">• الهدف: تعليم الطالب أن الحاسب لا يفهم إلا 0 و 1، وأن كل خانة (Bit) لها وزن موضعي من مضاعفات 2 (2⁰, 2¹, 2², 2³...). طريقة الشرح: القسمة التكرارية على 2 أو طرح قوى العدد 2 من الأكبر للأصغر، مع إضافة أصفار جهة اليسار (Leading Zeros) ليكتمل حجم المسجل.</div>
@@ -1570,6 +1873,14 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="theory-box">
+    <div style="background:#f5f3ff; border:1px dashed #8b5cf6; padding:8px 12px; border-radius:6px; margin:8px 0; font-size:0.85rem; color:#5b21b6; display:flex; align-items:center; gap:8px;">
+      <span style="font-size:1.1rem;">🧮</span>
+      <div>
+        <strong>خطوات حل المسألة 2 على آلة Casio:</strong>
+        في وضع <code>BASE-N</code> اضغط زر <code>[BIN]</code> &rarr; اكتب الأصفار والوحايد واضغط <code>[ = ]</code> &rarr; اضغط زر <code>[DEC]</code> يظهر الرقم العشري فوراً!
+      </div>
+    </div>
+
       <h4 class="lang-ar">💡 دليل المعيد للشرح في السكشن:</h4>
       <h4 class="lang-en">💡 Instructor Teaching Guide:</h4>
       <div class="lang-ar">• الطريقة: نضرب كل بت في وزنه الموضعي (2ⁿ) حيث تبدأ n من 0 عند أقصى اليمين (LSB). تنبيه الطلاب: اقرأ الرقم من اليمين لليسار عند وضع الأسس: 1، 2، 4، 8، 16، 32، 64، 128...</div>
@@ -1622,6 +1933,14 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="theory-box">
+    <div style="background:#f5f3ff; border:1px dashed #8b5cf6; padding:8px 12px; border-radius:6px; margin:8px 0; font-size:0.85rem; color:#5b21b6; display:flex; align-items:center; gap:8px;">
+      <span style="font-size:1.1rem;">🧮</span>
+      <div>
+        <strong>خطوات الجمع الثنائي بالآلة Casio:</strong>
+        في وضع <code>[BIN]</code> اكتب مباشرة <code>1011 + 1101</code> واضغط <code>[ = ]</code> &rarr; النتيجة تطلع <code>11000</code> بدون تضييع وقت في الـ Carry اليدوي!
+      </div>
+    </div>
+
       <h4 class="lang-ar">💡 دليل المعيد للشرح في السكشن:</h4>
       <h4 class="lang-en">💡 Instructor Teaching Guide:</h4>
       <div class="lang-ar">• قواعد الجمع: 0+0=0 ، 1+0=1 ، 1+1 = 0 مع حمل 1 (Carry) ، 1+1+1 = 1 مع حمل 1. مفهوم الـ Overflow: إذا تجاوز ناتج الجمع القيمة القصوى للمسجل (مثلاً 255 لمسجل 8-bit)، يحدث فيضان ويتطلب خانة تاسعة لا يستطيع المسجل تخزينها!</div>
@@ -1678,6 +1997,14 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="theory-box">
+    <div style="background:#f0fdf4; border:1px dashed #16a34a; padding:8px 12px; border-radius:6px; margin:8px 0; font-size:0.85rem; color:#14532d; display:flex; align-items:center; gap:8px;">
+      <span style="font-size:1.1rem;">🧮</span>
+      <div>
+        <strong>خطوات حساب جدول الـ ADC بالآلة:</strong>
+        احسب عدد الخطوات <code>2 ^ N</code>، ثم الدقة <code>Span ÷ (2^N) × 1000</code> للتحويل إلى mV مباشرة. خزن الناتج في الذاكرة بـ <code>[STO] [A]</code> لحساب باقي المطاليب بسرعة.
+      </div>
+    </div>
+
       <h4 class="lang-ar">💡 المفهوم الفيزيائي لخطوة التكميم (Quantization Step Size Q):</h4>
       <h4 class="lang-en">💡 Physical Concept of Quantization Step Size (Q):</h4>
       <div class="lang-ar">• الـ ADC يقسم مجال الفولت المستمر (Span) إلى عدد مستويات رقمية قدرها 2ᴹ مستوى. خطوة التكميم Q تمثل أصغر تغير في الجهد يستطيع الكارت الإحساس به: <strong>Q = Span / 2ᴹ</strong>. أقصى خطأ تكميم نظري هو نصف خطوة: <strong>±Q/2</strong>.</div>
@@ -2045,6 +2372,14 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="theory-box">
+    <div style="background:#eff6ff; border:1px dashed #2563eb; padding:8px 12px; border-radius:6px; margin:8px 0; font-size:0.85rem; color:#1e40af; display:flex; align-items:center; gap:8px;">
+      <span style="font-size:1.1rem;">🧮</span>
+      <div>
+        <strong>خطوة سريعة لحساب الـ Aliasing بزر Abs:</strong>
+        احسب <code>f ÷ fs</code> واعرف رقم التقريب <code>n</code>، ثم اكتب مباشرة <code>Abs( f - fs × n )</code> بزر القيمة المطلقة <code>[Abs]</code> يطلعلك التردد في ثانية واحدة!
+      </div>
+    </div>
+
       <h4 class="lang-ar">📖 الدليل المنهجي لنظرية أخذ العينات والتردد الزائف (Aliasing):</h4>
       <h4 class="lang-en">📖 Methodological Guide — Sampling Rate Theorem & Aliasing:</h4>
       <div class="lang-ar">• <strong>شرط نايكويست:</strong> لمنع التشوه يجب أن يكون <strong>fs ≥ 2·f</strong>.<br>
